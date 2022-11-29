@@ -4,19 +4,19 @@ The Permanent Registrar is the code that will govern allocation and renewal of n
 
 ## System architecture
 
-Code for the permanent registrar can be found in the [ethregistrar](https://github.com/ensdomains/ethregistrar) repository.
+Code for the permanent registrar can be found in the [ethregistrar](https://github.com/pnsdomains/ethregistrar) repository.
 
 The registrar itself is called [BaseRegistrar](registrar.md). This contract implements several key functions:
 
 * The owner of the registrar may add and remove 'controllers'.
 * Controllers may register new domains and extend the expiry of \(renew\) existing domains. They can not change the ownership or reduce the expiration time of existing domains.
 * Name owners may transfer ownership to another address.
-* Name owners may reclaim ownership in the ENS registry if they have lost it.
+* Name owners may reclaim ownership in the PNS registry if they have lost it.
 * Owners of names in the legacy registrar may transfer them to the new registrar, during the 1 year transition period. When they do so, their deposit is returned to them in its entirety.
 
-In addition, the registrar is an [ERC721](https://github.com/ensdomains/ens/blob/master/docs/ethregistrar.rst#id3) compliant nonfungable token contract, meaning that .eth registrations can be transferred in the same fashion as other NFTs.
+In addition, the registrar is an [ERC721](https://github.com/pnsdomains/pns/blob/master/docs/ethregistrar.rst#id3) compliant nonfungable token contract, meaning that .eth registrations can be transferred in the same fashion as other NFTs.
 
-Users will interact directly with this contract when transferring ownership of names, or recovering ownership in the ENS registry of a name \(for example, one whose ownership was previously transferred to a contract\). Users can also query names to see their registration status and expiry date. For initial registration and for renewals, users will need to interact with a controller contract.
+Users will interact directly with this contract when transferring ownership of names, or recovering ownership in the PNS registry of a name \(for example, one whose ownership was previously transferred to a contract\). Users can also query names to see their registration status and expiry date. For initial registration and for renewals, users will need to interact with a controller contract.
 
 This separation of concerns reduces the attack surface for the registrar, and provides users with guarantees of continued ownership of a name so long as the registrar is in place. Simultaneously, it provides for improvement and innovation over registration and renewal mechanisms. A future update may transfer ownership of the root and the .eth TLD to a contract with restricted permissions, thus preventing even the root keyholders from modifying a .eth registraion, while still providing for future updates to the set of controllers.
 
@@ -31,16 +31,16 @@ By allowing anyone to renew a domain, users concerned with the longevity of a na
 
 By allowing renewal for arbitrarily long periods of time, users can 'lock in' a desirable registration fee. Names can be made effectively 'immortal' by renewing for a long period, ensuring that stability of the name can be guaranteed by smart contract.
 
-Initially, a single pricing oracle was deployed, the [StablePriceOracle](https://github.com/ensdomains/ethregistrar/blob/master/contracts/StablePriceOracle.sol). This contract permits its owner to set prices in USD for each permitted name length, and uses a USD:ETH price oracle to convert those prices into Ether at the current rate. Users will not have to interact with this oracle directly, as the controller provides functionality to determine pricing for a candidate name registration or renewal.
+Initially, a single pricing oracle was deployed, the [StablePriceOracle](https://github.com/pnsdomains/ethregistrar/blob/master/contracts/StablePriceOracle.sol). This contract permits its owner to set prices in USD for each permitted name length, and uses a USD:ETH price oracle to convert those prices into Ether at the current rate. Users will not have to interact with this oracle directly, as the controller provides functionality to determine pricing for a candidate name registration or renewal.
 
 ## Discovery
 
-Finding the address of the new registrar is straightforward: look up the owner of the domain 'eth' in ENS, by calling `owner(namehash('eth'))` on the ENS registry.
+Finding the address of the new registrar is straightforward: look up the owner of the domain 'eth' in PNS, by calling `owner(namehash('eth'))` on the PNS registry.
 
-In order to support discovering the address of the controller, ENS supports interface discovery via [EIP 1844](https://eips.ethereum.org/EIPS/eip-1844). This mechanism permits looking up the address of the contract that implements a required interface via the following process:
+In order to support discovering the address of the controller, PNS supports interface discovery via [EIP 1844](https://eips.ethereum.org/EIPS/eip-1844). This mechanism permits looking up the address of the contract that implements a required interface via the following process:
 
 1. Set `node = namehash('eth')`.
-2. Look up the ENS resolver by calling `resolver(node)` on the ENS registry.
+2. Look up the PNS resolver by calling `resolver(node)` on the PNS registry.
 3. Call the `interfaceImplementer(node, interfaceId)` method on that resolver, where `interfaceId` is the [EIP 165](https://eips.ethereum.org/EIPS/eip-165) interface ID of the interface you need.
 
 The following interface IDs are presently defined for the .eth permanent registrar:

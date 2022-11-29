@@ -1,6 +1,6 @@
 # DNS Registrar
 
-At ENS, we have two smart contracts, [DNSSECOracle](https://github.com/ensdomains/dnssec-oracle) and [DNSRegistrar](https://github.com/ensdomains/dnsregistrar).
+At PNS, we have two smart contracts, [DNSSECOracle](https://github.com/pnsdomains/dnssec-oracle) and [DNSRegistrar](https://github.com/pnsdomains/dnsregistrar).
 
 DNSSEC (The Domain Name System Security Extensions) establishes a chain of trust from the root key which is signed by ICANN (.) and down through each key. We start off knowing the hash of the root key of DNS (this is hard coded in the smart contract oracle). Given the hashes of that key, we can pass in the actual key, we can verify that it matches the hash and we can add it to the set of the trusted records.
 
@@ -8,14 +8,14 @@ Given that key, we can now verify any record that is signed with that key, so in
 
 ![](<../.gitbook/assets/diagram (1).png>)
 
-DNSSEC oracle allows anyone to submit proof of any DNSSEC-signed DNS record on the Ethereum blockchain, as long as it was signed using supported public key schemes and digests. DNSRegistrar grants ENS domains to anyone who can prove ownership of the corresponding domain in DNS through DNSSEC Oracle to prove this.
+DNSSEC oracle allows anyone to submit proof of any DNSSEC-signed DNS record on the Ethereum blockchain, as long as it was signed using supported public key schemes and digests. DNSRegistrar grants PNS domains to anyone who can prove ownership of the corresponding domain in DNS through DNSSEC Oracle to prove this.
 
 ## Deployed DNSRegistrar addresses
 
 * Mainnet, at TBD.
 * Ropsten, at 0x475e527d54b91b0b011DA573C69Ac54B2eC269ea.
 
-When you register ENS names, you can look up the registrar contract address by looking up its parent domain owner (eg: `.eth`, for `.matoken.eth`). However, when you register via DNSSEC Registrars, the parent domain owner may not exist if you are the first person to register under the TLD.
+When you register PNS names, you can look up the registrar contract address by looking up its parent domain owner (eg: `.eth`, for `.matoken.eth`). However, when you register via DNSSEC Registrars, the parent domain owner may not exist if you are the first person to register under the TLD.
 
 ## Gas cost
 
@@ -25,16 +25,16 @@ Submitting proof to DNSSEC Oracle takes up a lot of gas because it is heavy comp
 
 To help you interact with DNSSEC data and the DNSRegistrar, we provide two libraries.
 
-* [DNSProvejs](https://github.com/ensdomains/dnsprovejs) = A library for querying and validating DNSSEC data from DNS
-* [dnssecoraclejs](https://github.com/ensdomains/dnssecoraclejs) = A library for generating proof data for the ENS DNSSEC Oracle.
+* [DNSProvejs](https://github.com/pnsdomains/dnsprovejs) = A library for querying and validating DNSSEC data from DNS
+* [dnssecoraclejs](https://github.com/pnsdomains/dnssecoraclejs) = A library for generating proof data for the PNS DNSSEC Oracle.
 
 ## Examples
 
 ### Retrieving proof from DNS
 
 ```javascript
-import { Oracle } from '@ensdomains/dnssecoraclejs'
-import { DNSProver } from '@ensdomains/dnsprovejs'
+import { Oracle } from '@pnsdomains/dnssecoraclejs'
+import { DNSProver } from '@pnsdomains/dnsprovejs'
 
 const textDomain = '_ens.matoken.xyz'
 const prover = DNSProver.create("https://cloudflare-dns.com/dns-query")
@@ -82,8 +82,8 @@ result.answer.records[0].data.toString()
 ### Submitting the proof to the DNSRegistrar
 
 ```javascript
-import { Oracle } from '@ensdomains/dnssecoraclejs'
-import { abi } from '@ensdomains/contracts/abis/dnsregistrar/DNSRegistrar.json'
+import { Oracle } from '@pnsdomains/dnssecoraclejs'
+import { abi } from '@pnsdomains/contracts/abis/dnsregistrar/DNSRegistrar.json'
 import { Contract } from 'ethers'
 
 // The registrar address nees to be hard-coded

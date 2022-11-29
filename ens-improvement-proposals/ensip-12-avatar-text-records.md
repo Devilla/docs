@@ -1,44 +1,44 @@
 ---
-description: A standard for storage of the avatar text record in ENS.
+description: A standard for storage of the avatar text record in PNS.
 ---
 
-# ENSIP-12: Avatar Text Records
+# PNSIP-12: Avatar Text Records
 
-| **Author**    | Nick Johnson \<nick@ens.domains>, Makoto Inoue \<makoto@ens.domains> |
+| **Author**    | Nick Johnson \<nick@pns.domains>, Makoto Inoue \<makoto@pns.domains> |
 | ------------- | -------------------------------------------------------------------- |
 | **Status**    | Draft                                                                |
 | **Submitted** | 2022-01-18                                                           |
 
 ### Abstract
 
-This ENSIP defines a process for retrieving avatar URIs from ENS, several [URI](https://datatracker.ietf.org/doc/html/rfc3986) schemes for the ENS 'avatar' text field, and how they should be interpreted by clients wishing to display a user's avatar image.
+This PNSIP defines a process for retrieving avatar URIs from PNS, several [URI](https://datatracker.ietf.org/doc/html/rfc3986) schemes for the PNS 'avatar' text field, and how they should be interpreted by clients wishing to display a user's avatar image.
 
 ### Motivation
 
-ENS primary name (formerly known as reverse record) has been widely integrated as a de facto web3 user name across many Ethereum based applications. As multiple apps started specifying avatar profile image as well as let users pick NFT as pfp (profile image), it became obvious to store such information within ENS so that the avatar information can be shared across different applications.
+PNS primary name (formerly known as reverse record) has been widely integrated as a de facto web3 user name across many Ethereum based applications. As multiple apps started specifying avatar profile image as well as let users pick NFT as pfp (profile image), it became obvious to store such information within PNS so that the avatar information can be shared across different applications.
 
-This specification standardises a way to store and retrieve this information using [ENSIP-5: Avatar Text Records](ensip-5-text-records.md)
+This specification standardises a way to store and retrieve this information using [PNSIP-5: Avatar Text Records](ensip-5-text-records.md)
 
 ### Specification
 
 #### Retrieving the avatar URI
 
-The process for retrieving the avatar URI depends on whether the client has an Ethereum address or an ENS name to start with.
+The process for retrieving the avatar URI depends on whether the client has an Ethereum address or an PNS name to start with.
 
-#### ENS Name
+#### PNS Name
 
-To determine the avatar URI for an ENS name, the client MUST first look up the resolver for the name and call `.text(namehash(name), 'avatar')` on it to retrieve the avatar URI for the name.
+To determine the avatar URI for an PNS name, the client MUST first look up the resolver for the name and call `.text(namehash(name), 'avatar')` on it to retrieve the avatar URI for the name.
 
 The client MUST treat the absence of a resolver, an revert when calling the `addr` method on the resolver, or an empty string returned by the resolver identically, as a failure to find a valid avatar URI.
 
 #### Ethereum Address
 
-To determine the avatar URI for an Ethereum address, the client MUST reverse-resolve the address by querying the ENS registry for the resolver of `<address>.addr.reverse`, where `<address>` is the lowercase hex-encoded Ethereum address, without leading '0x'. Then, the client calls `.text(namehash('<address>.addr.reverse'), 'avatar')` to retrieve the avatar URI for the address.
+To determine the avatar URI for an Ethereum address, the client MUST reverse-resolve the address by querying the PNS registry for the resolver of `<address>.addr.reverse`, where `<address>` is the lowercase hex-encoded Ethereum address, without leading '0x'. Then, the client calls `.text(namehash('<address>.addr.reverse'), 'avatar')` to retrieve the avatar URI for the address.
 
-If a resolver is returned for the reverse record, but calling `text` causes a revert or returns an empty string, the client MUST call `.name(namehash('<address>.addr.reverse'))`. If this method returns a valid ENS name, the client MUST:
+If a resolver is returned for the reverse record, but calling `text` causes a revert or returns an empty string, the client MUST call `.name(namehash('<address>.addr.reverse'))`. If this method returns a valid PNS name, the client MUST:
 
 1. Validate that the reverse record is valid, by resolving the returned name and calling `addr` on the resolver, checking it matches the original Ethereum address.
-2. Perform the process described under 'ENS Name' to look for a valid avatar URI on the name.
+2. Perform the process described under 'PNS Name' to look for a valid avatar URI on the name.
 
 A failure at any step of this process MUST be treated by the client identically as a failure to find a valid avatar URI.
 
@@ -83,7 +83,7 @@ Clients MUST support at least `https` and `ipfs` URIs for resolving the metadata
 
 Clients SHOULD additionally take the following verification steps:
 
-1. Where the avatar URI was retrieved via forward resolution (starting from an ENS name), call the `addr` function on the same resolver and for the same name to retrieve the Ethereum address to which the name resolves. Otherwise, if the avatar URI was retrieved via reverse resolution (starting from an Ethereum address), use that address.
+1. Where the avatar URI was retrieved via forward resolution (starting from an PNS name), call the `addr` function on the same resolver and for the same name to retrieve the Ethereum address to which the name resolves. Otherwise, if the avatar URI was retrieved via reverse resolution (starting from an Ethereum address), use that address.
 2. Verify that the address from step 1 is an owner of the NFT specified in the URI. If it is not, the client MUST treat the URI as invalid and behave in the same manner as they would if no avatar URI was specified.
 
 Clients MAY support NFT URIs by rewriting them to `https` URIs for a service that provides NFT avatar image resolution support.

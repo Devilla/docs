@@ -1,15 +1,15 @@
-# Working with ENS
+# Working with PNS
 
-Before you can begin interacting with ENS, you will need to obtain a reference to the ENS registry. How you do this depends on the library you are using.
+Before you can begin interacting with PNS, you will need to obtain a reference to the PNS registry. How you do this depends on the library you are using.
 
-Example code for the Javascript-based APIs \(ensjs, web3.js, ethjs-ens, and ethers.js\) here expect that they are being run inside a DApp browser, such as Chrome with [metamask installed](https://metamask.github.io/metamask-docs/Main_Concepts/Getting_Started), which exposes the `ethereum` object.
+Example code for the Javascript-based APIs \(ensjs, web3.js, ethjs-pns, and ethers.js\) here expect that they are being run inside a DApp browser, such as Chrome with [metamask installed](https://metamask.github.io/metamask-docs/Main_Concepts/Getting_Started), which exposes the `ethereum` object.
 
 {% tabs %}
 {% tab title="ensjs" %}
 ```javascript
-import ENS, { getEnsAddress } from '@ensdomains/ensjs'
+import PNS, { getEnsAddress } from '@pnsdomains/ensjs'
 
-const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
+const pns = new PNS({ provider, ensAddress: getEnsAddress('1') })
 ```
 {% endtab %}
 
@@ -19,17 +19,17 @@ var Web3 = require("web3")
 
 var accounts = ethereum.enable();
 var web3 = new Web3(ethereum);
-var ens = web3.eth.ens;
+var pns = web3.eth.pns;
 ```
 {% endtab %}
 
-{% tab title="ethjs-ens" %}
+{% tab title="ethjs-pns" %}
 ```javascript
-const ENS = require('ethjs-ens');
+const PNS = require('ethjs-pns');
 // Currently requires both provider and
 // either a network or registryAddress param
 var accounts = ethereum.enable();
-const ens = new ENS({ ethereum, network: '1' });
+const pns = new PNS({ ethereum, network: '1' });
 ```
 {% endtab %}
 
@@ -37,37 +37,37 @@ const ens = new ENS({ ethereum, network: '1' });
 ```javascript
 var ethers = require('ethers');
 var provider = new ethers.providers.Web3Provider(ethereum);
-// ENS functionality is provided directly on the core provider object.
+// PNS functionality is provided directly on the core provider object.
 ```
 {% endtab %}
 
-{% tab title="go-ens" %}
+{% tab title="go-pns" %}
 ```go
 import (
-  ens "github.com/wealdtech/go-ens/v2"
+  pns "github.com/wealdtech/go-pns/v2"
   ethereum "github.com/ethereum/go-ethereum"
 )
 
 // Can dial up a connection through either IPC or HTTP/HTTPS
 client, err := ethereum.Dial("/home/ethereum/.ethereum/geth.ipc")
-registry, err := ens.Registry(client)
+registry, err := pns.Registry(client)
 ```
 {% endtab %}
 
 {% tab title="web3.py" %}
 ```python
-from ens.auto import ns
+from pns.auto import ns
 ```
 {% endtab %}
 
 {% tab title="web3j" %}
 ```java
-EnsResolver ens = new EnsResolver(web3j, 300 /* sync threshold, seconds */);
+EnsResolver pns = new EnsResolver(web3j, 300 /* sync threshold, seconds */);
 ```
 {% endtab %}
 {% endtabs %}
 
-Some web3 libraries - e.g., ethers.js, web3j, and web3.py - have integrated support for name resolution. In these libraries, you can pass in an ENS name anywhere you can supply an address, meaning you do not need to interact directly with their ENS APIs unless you want to manually resolve names or do other ENS operations.
+Some web3 libraries - e.g., ethers.js, web3j, and web3.py - have integrated support for name resolution. In these libraries, you can pass in an PNS name anywhere you can supply an address, meaning you do not need to interact directly with their PNS APIs unless you want to manually resolve names or do other PNS operations.
 
-If no library is available for your platform, you can instantiate the ENS registry contract directly using the interface definition [here](https://github.com/ensdomains/ens/blob/master/contracts/ENS.sol). Addresses for the ENS registry on each supported network are available in the [ENS Deployments](../ens-deployments.md) page.
+If no library is available for your platform, you can instantiate the PNS registry contract directly using the interface definition [here](https://github.com/pnsdomains/pns/blob/master/contracts/PNS.sol). Addresses for the PNS registry on each supported network are available in the [PNS Deployments](../pns-deployments.md) page.
 

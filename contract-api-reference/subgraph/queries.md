@@ -5,7 +5,7 @@ title: Sample Queries
 
 # Querying
 
-Below are some sample queries you can use to gather information from the ENS contracts.
+Below are some sample queries you can use to gather information from the PNS contracts.
 
 You can build your own queries using a [GraphQL Explorer](https://graphiql-online.com/graphiql) and enter your endpoint to limit the data to exactly what you need.
 
@@ -39,7 +39,7 @@ query getSubDomains($Account: String = "vitalik.eth") {
 }
 ```
 
-## Get an expiration for an ENS domain
+## Get an expiration for an PNS domain
 
 ```graphql
 {

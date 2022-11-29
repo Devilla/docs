@@ -1,10 +1,10 @@
 ---
 description: >-
-  Describes the hash registrar initially used to register ENS .eth domains
+  Describes the hash registrar initially used to register PNS .eth domains
   (formerly EIP-162).
 ---
 
-# ENSIP-2: Initial Hash Registrar
+# PNSIP-2: Initial Hash Registrar
 
 | **Author**  | Maurelian, Nick Johnson [nick@ethereum.org](mailto:nick@ethereum.org), Alex Van de Sande [avsa@ethereum.org](mailto:avsa@ethereum.org) |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -13,23 +13,23 @@ description: >-
 
 ### Abstract
 
-This ERC describes the implementation, as deployed to the main ethereum network on 2017-05-04, of a registrar contract to govern the allocation of names in the Ethereum Name Service (ENS). The corresponding source code is [here](https://github.com/ethereum/ens/blob/mainnet/contracts/HashRegistrarSimplified.sol).
+This ERC describes the implementation, as deployed to the main ethereum network on 2017-05-04, of a registrar contract to govern the allocation of names in the Ethereum Name Service (PNS). The corresponding source code is [here](https://github.com/ethereum/pns/blob/mainnet/contracts/HashRegistrarSimplified.sol).
 
-For more background, refer to ENSIP-1.
+For more background, refer to PNSIP-1.
 
-> Registrars are responsible for allocating domain names to users of the system, and are the only entities capable of updating the ENS; the owner of a node in the ENS registry is its registrar. Registrars may be contracts or externally owned accounts, though it is expected that the root and top-level registrars, at a minimum, will be implemented as contracts.
+> Registrars are responsible for allocating domain names to users of the system, and are the only entities capable of updating the PNS; the owner of a node in the PNS registry is its registrar. Registrars may be contracts or externally owned accounts, though it is expected that the root and top-level registrars, at a minimum, will be implemented as contracts.
 >
-> \- ENSIP-1
+> \- PNSIP-1
 
-A well designed and governed registrar is essential to the success of the ENS described in ENSIP-1, but is described separately in this document as it is external to the core ENS protocol.
+A well designed and governed registrar is essential to the success of the PNS described in PNSIP-1, but is described separately in this document as it is external to the core PNS protocol.
 
-In order to maximize utility and adoption of a new namespace, the registrar should mitigate speculation and "name squatting", however the best approach for mitigation is unclear. Thus an "initial" registrar is proposed, which implements a simple approach to name allocation. During the initial period, the available namespace will be significantly restricted to the `.eth` top level domain, and subdomain shorter than 7 characters in length disallowed. This specification largely describes @alexvandesande and @arachnid's [hash registrar implementation](https://github.com/ethereum/ens/blob/mainnet/contracts/HashRegistrarSimplified.sol) in order to facilitate discussion.
+In order to maximize utility and adoption of a new namespace, the registrar should mitigate speculation and "name squatting", however the best approach for mitigation is unclear. Thus an "initial" registrar is proposed, which implements a simple approach to name allocation. During the initial period, the available namespace will be significantly restricted to the `.eth` top level domain, and subdomain shorter than 7 characters in length disallowed. This specification largely describes @alexvandesande and @arachnid's [hash registrar implementation](https://github.com/ethereum/pns/blob/mainnet/contracts/HashRegistrarSimplified.sol) in order to facilitate discussion.
 
 The intent is to replace the Initial Registrar contract with a permanent registrar contract. The Permanent Registrar will increase the available namespace, and incorporate lessons learned from the performance of the Initial Registrar. This upgrade is expected to take place within approximately 2 years of initial deployment.
 
 ### Motivations
 
-The following factors should be considered in order to optimize for adoption of the ENS, and good governance of the Initial Registrar's namespace.
+The following factors should be considered in order to optimize for adoption of the PNS, and good governance of the Initial Registrar's namespace.
 
 **Upgradability:** The Initial Registrar should be safely upgradeable, so that knowledge gained during its deployment can be used to replace it with an improved and permanent registrar.
 
@@ -39,9 +39,9 @@ Achieving an effective allocation may or may not require human intervention for 
 
 **Security:** The registrar will hold a balance of ether without an explicit limit. It must be designed securely.
 
-**Simplicity:** The ENS specification itself emphasizes a separation of concerns, allowing the most essential element, the registry to be as simple as possible. The interim registrar in turn should be as simple as possible while still meeting its other design goals.
+**Simplicity:** The PNS specification itself emphasizes a separation of concerns, allowing the most essential element, the registry to be as simple as possible. The interim registrar in turn should be as simple as possible while still meeting its other design goals.
 
-**Adoption:** Successful standards become more successful due to network effects. The registrar should consider what strategies will encourage the adoption of the ENS in general, and the namespace it controls in particular.
+**Adoption:** Successful standards become more successful due to network effects. The registrar should consider what strategies will encourage the adoption of the PNS in general, and the namespace it controls in particular.
 
 ### Specification
 
@@ -51,13 +51,13 @@ The Initial Registrar is expected to be in service for approximately two years, 
 
 During the initial two year period, the available name space will be restricted to the `.eth` TLD.
 
-This restriction is enforced by the owner of the ENS root node who should not assign any nodes other than `.eth` to the Initial Registrar. The ENS's root node should be controlled by multiple parties using a multisig contract.
+This restriction is enforced by the owner of the PNS root node who should not assign any nodes other than `.eth` to the Initial Registrar. The PNS's root node should be controlled by multiple parties using a multisig contract.
 
 The Initial Registrar will also prohibit registration of names 6 characters or less in length.
 
 #### Name format for hash registration
 
-Names submitted to the initial registrar must be hashed using Ethereum's sha3 function. Note that the hashes submitted to the registrar are the hash of the subdomain label being registered, not the namehash as defined in ENSIP-1.
+Names submitted to the initial registrar must be hashed using Ethereum's sha3 function. Note that the hashes submitted to the registrar are the hash of the subdomain label being registered, not the namehash as defined in PNSIP-1.
 
 For example, in order to register `abcdefg.eth`, one should submit `sha3('abcdefg')`, not `sha3(sha3(0, 'eth'), 'abcdefg')`.
 
@@ -75,7 +75,7 @@ The auction lifecycle of a name has 5 possible states, or Modes.
 2. **Open:** The earliest availability for a name is determined by the most significant byte of its sha3 hash. `0x00` would become available immediately, `0xFF` would become available after 8 weeks, and the availability of other names is distributed accordingly. Once a name is available, it is possible to start an auction on it.
 3. **Auction:** Once the auction for a name has begun, there is a 72 hour bidding period. Bidders must submit a payment of ether, along with sealed bids as a hash of `sha3(bytes32 hash, address owner, uint value, bytes32 salt)`. The bidder may obfuscate the true bid value by sending a greater amount of ether.
 4. **Reveal:** After the bidding period, a 48 hour reveal period commences. During this time, bidders must reveal the true parameters of their sealed bid. As bids are revealed, ether payments are returned according to the schedule of "refund ratios" outlined in the table below. If no bids are revealed, the name will return to the Open state.
-5. **Owned:** After the reveal period has finished, the winning bidder must submit a transaction to finalize the auction, which then calls the ENS's `setSubnodeOwner` function, recording the winning bidder's address as the owner of the hash of the name.
+5. **Owned:** After the reveal period has finished, the winning bidder must submit a transaction to finalize the auction, which then calls the PNS's `setSubnodeOwner` function, recording the winning bidder's address as the owner of the hash of the name.
 
 The following table outlines important parameters which define the Registrar's auction mechanism.
 
@@ -119,12 +119,12 @@ The following table outlines what portion of the balance held in a deed contract
 
 #### Deployment and Upgrade process
 
-The Initial Registrar requires the ENS's address as a constructor, and should be deployed after the ENS. The multisig account owning the root node in the ENS should then set the Initial Registrar's address as owner of the `eth` node.
+The Initial Registrar requires the PNS's address as a constructor, and should be deployed after the PNS. The multisig account owning the root node in the PNS should then set the Initial Registrar's address as owner of the `eth` node.
 
 The Initial Registrar is expected to be replaced by a Permanent Registrar approximately 2 years after deployment. The following process should be used for the upgrade:
 
 1. The Permanent Registrar contract will be deployed.
-2. The multisig account owning the root node in the ENS will assign ownership of the `.eth` node to the Permanent Registrar.
+2. The multisig account owning the root node in the PNS will assign ownership of the `.eth` node to the Permanent Registrar.
 3. Owners of hashes in the Initial Registrar will be responsible for registering their deeds to the Permanent Registrar. A couple options are considered here:
    1. Require owners to transfer their ownership prior to a cutoff date in order to maintain ownership and/or continue name resolution services.
    2. Have the Permanent Registrar query the Initial Registrar for ownership if it is lacking an entry.
@@ -186,11 +186,11 @@ In order to limit dependence on the Initial Registrar, new auctions will stop af
 
 `function finalizeAuction(bytes32 _hash);`
 
-After the registration date has passed, this function can be called to finalize the auction, which then calls the ENS function `setSubnodeOwner()` updating the ENS record to set the winning bidder as owner of the node.
+After the registration date has passed, this function can be called to finalize the auction, which then calls the PNS function `setSubnodeOwner()` updating the PNS record to set the winning bidder as owner of the node.
 
 `function transfer(bytes32 _hash, address newOwner);`
 
-* Update the owner of the ENS node corresponding to the submitted hash to a new owner. This function must be callable only by the current owner.
+* Update the owner of the PNS node corresponding to the submitted hash to a new owner. This function must be callable only by the current owner.
 
 `function releaseDeed(bytes32 _hash);`
 
@@ -206,7 +206,7 @@ After the registration date has passed, this function can be called to finalize 
 
 `function transferRegistrars(bytes32 _hash) onlyOwner(_hash);`
 
-* Used during the upgrade process to a permanent registrar. If this registrar is no longer the owner of the root node in the ENS, this function will transfer the deed to the current owner, which should be a new registrar. This function throws if this registrar still owns its root node.
+* Used during the upgrade process to a permanent registrar. If this registrar is no longer the owner of the root node in the PNS, this function will transfer the deed to the current owner, which should be a new registrar. This function throws if this registrar still owns its root node.
 
 ### Rationale
 
@@ -226,7 +226,7 @@ A slower release allows for extra time to identify, and address any issues which
 
 Choosing a single TLD helps to maximize network effects by focusing on one namespace.
 
-A three letter TLD is a pattern made familiar by it's common usage in internet domain names. This familiarity significantly increases the potential of the ENS to be integrated into pre-existing DNS systems, and reserved as a [special-use domain name](https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml#special-use-domain). A recent precedent for this is the [reservation of the `.onion` domain](https://tools.ietf.org/html/rfc7686).
+A three letter TLD is a pattern made familiar by it's common usage in internet domain names. This familiarity significantly increases the potential of the PNS to be integrated into pre-existing DNS systems, and reserved as a [special-use domain name](https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml#special-use-domain). A recent precedent for this is the [reservation of the `.onion` domain](https://tools.ietf.org/html/rfc7686).
 
 #### Holding ether as collateral
 
@@ -236,9 +236,9 @@ This approach is simpler than the familiar model of requiring owners to make rec
 
 This document borrows heavily from several sources:
 
-* ENSIP-1 outlines the initial implementation of the Registry Contract (ENS.sol) and associated Resolver contracts.
+* PNSIP-1 outlines the initial implementation of the Registry Contract (PNS.sol) and associated Resolver contracts.
 * [ERC-26](https://github.com/ethereum/EIPs/issues/26) was the first ERC to propose a name service at the contract layer
-* @alexvandesande's current implementation of the [HashRegistrar](https://github.com/ethereum/ens/blob/mainnet/contracts/HashRegistrarSimplified.sol)
+* @alexvandesande's current implementation of the [HashRegistrar](https://github.com/ethereum/pns/blob/mainnet/contracts/HashRegistrarSimplified.sol)
 
 #### Edits:
 

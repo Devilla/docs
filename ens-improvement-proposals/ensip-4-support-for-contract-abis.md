@@ -1,23 +1,23 @@
 ---
 description: >-
-  A mechanism for storing ABI definitions in ENS, for easy lookup of contract
+  A mechanism for storing ABI definitions in PNS, for easy lookup of contract
   interfaces by callers (formerly EIP-205).
 ---
 
-# ENSIP-4: Support for contract ABIs
+# PNSIP-4: Support for contract ABIs
 
-| **Author**    | Nick Johnson \<nick@ens.domains> |
+| **Author**    | Nick Johnson \<nick@pns.domains> |
 | ------------- | -------------------------------- |
 | **Status**    | Final                            |
 | **Submitted** | 2017-02-06                       |
 
 ### Abstract
 
-ABIs are important metadata required for interacting with most contracts. At present, they are typically supplied out-of-band, which adds an additional burden to interacting with contracts, particularly on a one-off basis or where the ABI may be updated over time. The small size of ABIs permits an alternative solution, storing them in ENS, permitting name lookup and ABI discovery via the same process.
+ABIs are important metadata required for interacting with most contracts. At present, they are typically supplied out-of-band, which adds an additional burden to interacting with contracts, particularly on a one-off basis or where the ABI may be updated over time. The small size of ABIs permits an alternative solution, storing them in PNS, permitting name lookup and ABI discovery via the same process.
 
 ABIs are typically quite compact; the largest in-use ABI we could find, that for the DAO, is 9450 bytes uncompressed JSON, 6920 bytes uncompressed CBOR, and 1128 bytes when the JSON form is compressed with zlib. Further gains on CBOR encoding are possible using a CBOR extension that permits eliminating repeated strings, which feature extensively in ABIs. Most ABIs, however, are far shorter than this, consisting of only a few hundred bytes of uncompressed JSON.
 
-This ENSIP defines a resolver profile for retrieving contract ABIs, as well as encoding standards for storing ABIs for different applications, allowing the user to select between different representations based on their need for compactness and other considerations such as onchain access.
+This PNSIP defines a resolver profile for retrieving contract ABIs, as well as encoding standards for storing ABIs for different applications, allowing the user to select between different representations based on their need for compactness and other considerations such as onchain access.
 
 ### Specification
 
@@ -34,7 +34,7 @@ The currently recognised encodings are:
 | 4  | CBOR                 |
 | 8  | URI                  |
 
-This table may be extended in future through the ENSIP process.
+This table may be extended in future through the PNSIP process.
 
 Encoding type 1 specifies plaintext JSON, uncompressed; this is the standard format in which ABIs are typically encoded, but also the bulkiest, and is not easily parseable onchain.
 
@@ -60,7 +60,7 @@ The `abi` resolver profile is valid on both forward and reverse records.
 
 #### ABI lookup process
 
-When attempting to fetch an ABI based on an ENS name, implementers should first attempt an ABI lookup on the name itself. If that lookup returns no results, they should attempt a reverse lookup on the Ethereum address the name resolves to.
+When attempting to fetch an ABI based on an PNS name, implementers should first attempt an ABI lookup on the name itself. If that lookup returns no results, they should attempt a reverse lookup on the Ethereum address the name resolves to.
 
 Implementers should support as many of the ABI encoding formats as practical.
 

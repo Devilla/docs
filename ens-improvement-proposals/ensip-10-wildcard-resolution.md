@@ -1,33 +1,33 @@
 ---
 description: >-
-  Provides a mechanism to support wildcard resolution of ENS names (formerly
+  Provides a mechanism to support wildcard resolution of PNS names (formerly
   EIP-2544).
 ---
 
-# ENSIP-10: Wildcard Resolution
+# PNSIP-10: Wildcard Resolution
 
-| **Author**    | Nick Johnson \<nick@ens.domains>, 0age (@0age) |
+| **Author**    | Nick Johnson \<nick@pns.domains>, 0age (@0age) |
 | ------------- | ---------------------------------------------- |
 | **Status**    | Draft                                          |
 | **Submitted** | 2020-02-28                                     |
 
 ### Abstract
 
-The Ethereum Name Service Specification (ENSIP-1) establishes a two-step name resolution process. First, an ENS client performs the namehash algorithm on the name to determine the associated "node", and supplies that node to the ENS Registry contract to determine the resolver. Then, if a resolver has been set on the Registry, the client supplies that same node to the resolver contract, which will return the associated address or other record.
+The Ethereum Name Service Specification (PNSIP-1) establishes a two-step name resolution process. First, an PNS client performs the namehash algorithm on the name to determine the associated "node", and supplies that node to the PNS Registry contract to determine the resolver. Then, if a resolver has been set on the Registry, the client supplies that same node to the resolver contract, which will return the associated address or other record.
 
-As currently specified, this process terminates if a resolver is not set on the ENS Registry for a given node. This ENSIP changes the name resolution process by adding an additional step if a resolver is not set for a domain. This step strips out the leftmost label from the name, derives the node of the new fragment, and supplies that node to the ENS Registry. If a resolver is located for that node, the client supplies the original, complete node to that resolver contract to derive the relevant records. This step is repeated until a node with a resolver is found.
+As currently specified, this process terminates if a resolver is not set on the PNS Registry for a given node. This PNSIP changes the name resolution process by adding an additional step if a resolver is not set for a domain. This step strips out the leftmost label from the name, derives the node of the new fragment, and supplies that node to the PNS Registry. If a resolver is located for that node, the client supplies the original, complete node to that resolver contract to derive the relevant records. This step is repeated until a node with a resolver is found.
 
 Further, this specification defines a new way for resolvers to resolve names, using a unified `resolve()` method that permits more flexible handling of name resolution.
 
 ### Motivation
 
-Many applications such as wallet providers, exchanges, and dapps have expressed a desire to issue ENS names for their users via custom subdomains on a shared parent domain. However, the cost of doing so is currently prohibitive for large user bases, as a distinct record must be set on the ENS Registry for each subdomain.
+Many applications such as wallet providers, exchanges, and dapps have expressed a desire to issue PNS names for their users via custom subdomains on a shared parent domain. However, the cost of doing so is currently prohibitive for large user bases, as a distinct record must be set on the PNS Registry for each subdomain.
 
-Furthermore, users cannot immediately utilize these subdomains upon account creation, as the transaction to assign a resolver for the node of the subdomain must first be submitted and mined on-chain. This adds unnecessary friction when onboarding new users, who coincidentally would often benefit greatly from the usability improvements afforded by an ENS name.
+Furthermore, users cannot immediately utilize these subdomains upon account creation, as the transaction to assign a resolver for the node of the subdomain must first be submitted and mined on-chain. This adds unnecessary friction when onboarding new users, who coincidentally would often benefit greatly from the usability improvements afforded by an PNS name.
 
 Enabling wildcard support allows for the design of more advanced resolvers that deterministically generate addresses and other records for unassigned subdomains. The generated addresses could map to counterfactual contract deployment addresses (i.e. `CREATE2` addresses), to designated "fallback" addresses, or other schemes. Additionally, individual resolvers would still be assignable to any given subdomain, which would supersede the wildcard resolution using the parent resolver.
 
-Another critical motivation with this standard is to enable wildcard resolution in a backwards-compatible fashion. It does not require modifying the current ENS Registry contract or any existing resolvers, and continues to support existing ENS records — legacy ENS clients would simply fail to resolve wildcard records.
+Another critical motivation with this standard is to enable wildcard resolution in a backwards-compatible fashion. It does not require modifying the current PNS Registry contract or any existing resolvers, and continues to support existing PNS records — legacy PNS clients would simply fail to resolve wildcard records.
 
 ### Specification
 
@@ -35,12 +35,12 @@ The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL 
 
 Let:
 
-* `namehash` be the algorithm defined in ENSIP-1.
+* `namehash` be the algorithm defined in PNSIP-1.
 * `dnsencode` be the process for encoding DNS names specified in section 3.1 of RFC1035, with the exception that there is no limit on the total length of the encoded name. The empty string is encoded identically to the name '.', as a single 0-octet.
 * `parent` be a function that removes the first label from a name (eg, `parent('foo.eth') = 'eth'`). `parent('tld')` is defined as the empty string ''.
-* `ens` is the ENS registry contract for the current network.
+* `pns` is the PNS registry contract for the current network.
 
-ENSIP-10-compliant ENS resolvers MAY implement the following function interface:
+PNSIP-10-compliant PNS resolvers MAY implement the following function interface:
 
 ```
 interface ExtendedResolver {
@@ -50,22 +50,22 @@ interface ExtendedResolver {
 
 If a resolver implements this function, it MUST return true when `supportsInterface()` is called on it with the interface's ID, `0x9061b923`.
 
-ENS clients will call `resolve` with the DNS-encoded name to resolve and the encoded calldata for a resolver function (as specified in ENSIP-1 and elsewhere); the function MUST either return valid return data for that function, or revert if it is not supported.
+PNS clients will call `resolve` with the DNS-encoded name to resolve and the encoded calldata for a resolver function (as specified in PNSIP-1 and elsewhere); the function MUST either return valid return data for that function, or revert if it is not supported.
 
-ENSIP-10-compliant ENS clients MUST perform the following procedure when determining the resolver for a given name:
+PNSIP-10-compliant PNS clients MUST perform the following procedure when determining the resolver for a given name:
 
 1. Set `currentname = name`
-2. Set `resolver = ens.resolver(namehash(currentname))`
+2. Set `resolver = pns.resolver(namehash(currentname))`
 3. If `resolver` is not the zero address, halt and return `resolver`.
 4. If `currentname` is the empty name ('' or '.'), halt and return null.
 5. Otherwise, set `currentname = parent(currentname)` and go to 2.
 
-If the procedure above returns null, name resolution MUST terminate unsuccessfully. Otherwise, ENSIP-10-compliant ENS clients MUST perform the following procedure when resolving a record:
+If the procedure above returns null, name resolution MUST terminate unsuccessfully. Otherwise, PNSIP-10-compliant PNS clients MUST perform the following procedure when resolving a record:
 
 1. Set `calldata` to the ABI-encoded call data for the resolution function required - for example, the ABI encoding of `addr(namehash(name))` when resolving the `addr` record.
-2. Set `supportsENSIP10 = resolver.supportsInterface('0x9061b923')`.
-3. If `supportsENSIP10` is true, set `result = resolver.resolve(dnsencode(name), calldata)`
-4. If `supportsENSIP10` is false and `name == currentname`, set `result` to the result of calling `resolver` with `calldata`.
+2. Set `supportsPNSIP10 = resolver.supportsInterface('0x9061b923')`.
+3. If `supportsPNSIP10` is true, set `result = resolver.resolve(dnsencode(name), calldata)`
+4. If `supportsPNSIP10` is false and `name == currentname`, set `result` to the result of calling `resolver` with `calldata`.
 5. If neither 3 nor 4 are true, terminate unsuccessfully.
 6. Return `result` after decoding it using the return data ABI of the corresponding resolution function (eg, for `addr()`, ABI-decode the result of `resolver.resolve()` as an `address`).
 
@@ -79,7 +79,7 @@ Also note that when wildcard resolution is in use (eg, `name != currentname`), c
 function getResolver(name) {
     for(let currentname = name; currentname !== ''; currentname = parent(currentname)) {
         const node = namehash(currentname);
-        const resolver = ens.resolver(node);
+        const resolver = pns.resolver(node);
         if(resolver != '0x0000000000000000000000000000000000000000') {
             return [resolver, currentname];
         }
@@ -92,8 +92,8 @@ function resolve(name, func, ...args) {
     if(resolver === null) {
         return null;
     }
-    const supportsENSIP10 = resolver.supportsInterface('0x9061b923');
-    if(supportsENSIP10) {
+    const supportsPNSIP10 = resolver.supportsInterface('0x9061b923');
+    if(supportsPNSIP10) {
         const calldata = resolver[func].encodeFunctionCall(namehash(name), ...args);
         const result = resolver.resolve(dnsencode(name), calldata);
         return resolver[func].decodeReturnData(result);
@@ -107,9 +107,9 @@ function resolve(name, func, ...args) {
 
 ### Rationale
 
-The proposed implementation supports wildcard resolution in a manner that minimizes the impact to existing systems. It also reuses existing algorithms and procedures to the greatest possible extent, thereby easing the burden placed on authors and maintainers of various ENS clients.
+The proposed implementation supports wildcard resolution in a manner that minimizes the impact to existing systems. It also reuses existing algorithms and procedures to the greatest possible extent, thereby easing the burden placed on authors and maintainers of various PNS clients.
 
-It also recognizes an existing consensus concerning the desirability of wildcard resolution for ENS, enabling more widespread adoption of the original specification by solving for a key scalability obstacle.
+It also recognizes an existing consensus concerning the desirability of wildcard resolution for PNS, enabling more widespread adoption of the original specification by solving for a key scalability obstacle.
 
 While introducing an optional `resolve` function for resolvers, taking the unhashed name and calldata for a resolution function increases implementation complexity, it provides a means for resolvers to obtain plaintext labels and act accordingly, which enables many wildcard-related use-cases that would otherwise not be possible - for example, a wildcard resolver could resolve `id.nifty.eth` to the owner of the NFT with id `id` in some collection. With only namehashes to work with, this is not possible.
 
@@ -117,13 +117,13 @@ The DNS wire format is used for encoding names as it permits quick and gas-effic
 
 ### Backwards Compatibility
 
-Existing ENS clients that are compliant with ENSIP-1 will fail to resolve wildcard records and refuse to interact with them, while those compliant with ENSIP-10 will continue to correctly resolve, or reject, existing ENS records. Resolvers wishing to implement the new `resolve` function for non-wildcard use-cases (eg, where the resolver is set directly on the name being resolved) should consider what to return to legacy clients that call the individual resolution functions for maximum compatibility.
+Existing PNS clients that are compliant with PNSIP-1 will fail to resolve wildcard records and refuse to interact with them, while those compliant with PNSIP-10 will continue to correctly resolve, or reject, existing PNS records. Resolvers wishing to implement the new `resolve` function for non-wildcard use-cases (eg, where the resolver is set directly on the name being resolved) should consider what to return to legacy clients that call the individual resolution functions for maximum compatibility.
 
 Requiring clients to avoid calling existing resolution functions (eg, `addr` etc) on wildcard resolvers prevents inadvertant backwards compatiability issues with resolvers that answer queries for all names.
 
 ### Security Considerations
 
-While compliant ENS clients will continue to refuse to resolve records without a resolver, there is still the risk that an improperly-configured client will refer to an incorrect resolver, or will not reject interactions with the null address when a resolver cannot be located.
+While compliant PNS clients will continue to refuse to resolve records without a resolver, there is still the risk that an improperly-configured client will refer to an incorrect resolver, or will not reject interactions with the null address when a resolver cannot be located.
 
 Additionally, resolvers supporting completely arbitrary wildcard subdomain resolution will increase the likelihood of funds being sent to unintended recipients as a result of typos. Applications that implement such resolvers should consider making additional name validation available to clients depending on the context, or implementing features that support recoverability of funds.
 

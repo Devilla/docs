@@ -1,14 +1,14 @@
 ---
-description: The ENS registry.
+description: The PNS registry.
 ---
 
 # Registry
 
-[Source](https://github.com/ensdomains/ens/blob/master/contracts/ENS.sol)
+[Source](https://github.com/pnsdomains/pns/blob/master/contracts/PNS.sol)
 
-The ENS registry is the core contract that lies at the heart of ENS resolution. All ENS lookups start by querying the registry. The registry maintains a list of domains, recording the owner, resolver, and TTL for each, and allows the owner of a domain to make changes to that data.
+The PNS registry is the core contract that lies at the heart of PNS resolution. All PNS lookups start by querying the registry. The registry maintains a list of domains, recording the owner, resolver, and TTL for each, and allows the owner of a domain to make changes to that data.
 
-The ENS registry is specified in [EIP 137](https://eips.ethereum.org/EIPS/eip-137).
+The PNS registry is specified in [EIP 137](https://eips.ethereum.org/EIPS/eip-137).
 
 ## Get Owner
 
@@ -98,7 +98,7 @@ event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
 function setRecord(bytes32 node, address owner, address resolver, uint64 ttl);
 ```
 
-Sets the owner, resolver, and TTL for an ENS record in a single operation. This function is offered for convenience, and is exactly equivalent to calling `setResolver`, `setTTL` and `setOwner` in that order.
+Sets the owner, resolver, and TTL for an PNS record in a single operation. This function is offered for convenience, and is exactly equivalent to calling `setResolver`, `setTTL` and `setOwner` in that order.
 
 ### Set Subdomain Record
 
@@ -114,7 +114,7 @@ Sets the owner, resolver and TTL for a subdomain, creating it if necessary. This
 function setApprovalForAll(address operator, bool approved);
 ```
 
-Sets or clears an approval. Approved accounts can execute all ENS registry operations on behalf of the caller.
+Sets or clears an approval. Approved accounts can execute all PNS registry operations on behalf of the caller.
 
 ### Check Approval
 
@@ -122,7 +122,7 @@ Sets or clears an approval. Approved accounts can execute all ENS registry opera
 function isApprovedForAll(address owner, address operator) external view returns (bool);
 ```
 
-Returns true if `operator` is approved to make ENS registry operations on behalf of `owner`.
+Returns true if `operator` is approved to make PNS registry operations on behalf of `owner`.
 
 ### Check Record Existence
 
@@ -130,5 +130,5 @@ Returns true if `operator` is approved to make ENS registry operations on behalf
 function recordExists(bytes32 node) public view returns (bool);
 ```
 
-Returns true if `node` exists in this ENS registry. This will return false for records that are in the legacy ENS registry but have not yet been migrated to the new one.
+Returns true if `node` exists in this PNS registry. This will return false for records that are in the legacy PNS registry but have not yet been migrated to the new one.
 

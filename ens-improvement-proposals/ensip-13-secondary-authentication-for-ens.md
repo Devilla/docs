@@ -1,8 +1,8 @@
 ---
-description: Using ENS Text Records to facilitate safer and more convenient signing operations.
+description: Using PNS Text Records to facilitate safer and more convenient signing operations.
 ---
 
-# ENSIP-13: SAFE Authentication For ENS
+# PNSIP-13: SAFE Authentication For PNS
 
 | **Author**    | Wilkins Chung (@wwhchung), Jalil Wahdatehagh (@jwahdatehagh), Cry (@crydoteth), Sillytuna (@sillytuna), Cyberpnk (@CyberpnkWin) |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -36,7 +36,7 @@ In addition to this, many users keep significant portions of their assets in 'co
 Some solutions propose dedicated registry smart contracts to create this link, or new protocols to be supported. This is problematic from an adoption standpoint, and there have not been any standards created for them. 
 
 ### Proposal: Use the Ethereum Name Service (EIP-137)
-Rather than 're-invent the wheel', this proposal aims to use the widely adopted Ethereum Name Service in conjunction with the ENS Text Records feature ([EIP-634](https://eips.ethereum.org/EIPS/eip-634)) in order to achieve a safer and more convenient way to sign and authenticate, and provide 'read only' access to a main wallet via one or more secondary wallets.
+Rather than 're-invent the wheel', this proposal aims to use the widely adopted Ethereum Name Service in conjunction with the PNS Text Records feature ([EIP-634](https://eips.ethereum.org/EIPS/eip-634)) in order to achieve a safer and more convenient way to sign and authenticate, and provide 'read only' access to a main wallet via one or more secondary wallets.
 
 From there, the benefits are twofold. This EIP gives users increased security via outsourcing potentially malicious signing operations to wallets that are more accessible (hot wallets), while being able to maintain the intended security assumptions of wallets that are not frequently used for signing operations.
 
@@ -62,24 +62,24 @@ The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL 
 
 Let:
  - `mainAddress` represent the wallet address we are trying to authenticate or prove asset ownership for.
- - `mainENS` represent the reverse lookup ENS string for `mainAddress`.
+ - `mainPNS` represent the reverse lookup PNS string for `mainAddress`.
  - `authAddress` represent the address we want to use for signing in lieu of `mainAddress`.
- - `authENS` represent the reverse lookup ENS string for `authAddress`.
+ - `authPNS` represent the reverse lookup PNS string for `authAddress`.
  - `authKey` represents a string in the format `[0-9A-Za-z]+`.
 
 Control of `mainAddress` and ownership of `mainAddress` assets by `authAddress` is proven if all the following conditions are met:
- - `mainAddress` has an ENS resolver record and a reverse record set to `mainENS`.
- - `authAddress` has an ENS resolver record and a reverse record set to `authENS`.
- - `authENS` has an ENS TEXT record `eip5131:vault` in the format `<authKey>:<mainAddress>`.
- - `mainENS` has an ENS TEXT record `eip5131:<authKey>`.
+ - `mainAddress` has an PNS resolver record and a reverse record set to `mainPNS`.
+ - `authAddress` has an PNS resolver record and a reverse record set to `authPNS`.
+ - `authPNS` has an PNS TEXT record `eip5131:vault` in the format `<authKey>:<mainAddress>`.
+ - `mainPNS` has an PNS TEXT record `eip5131:<authKey>`.
 
-### Setting up one or many `authAddress` records on a single ENS domain
-The `mainAddress` MUST have an ENS resolver record and reverse record configured.
-In order to automatically discover the linked account, the `authAddress` SHOULD have an ENS resolver record and reverse record configured.
+### Setting up one or many `authAddress` records on a single PNS domain
+The `mainAddress` MUST have an PNS resolver record and reverse record configured.
+In order to automatically discover the linked account, the `authAddress` SHOULD have an PNS resolver record and reverse record configured.
 
 1. Choose an unused `<authKey>`. This can be any string in the format `[0-0A-Za-z]+`.
-2. Set a TEXT record `eip5131:<authKey>` on `mainENS`, with the value set to the desired `authAddress`.
-3. Set a TEXT record `eip5131:vault` on `authENS`, with the value set to the `<authKey>:mainAddress`.
+2. Set a TEXT record `eip5131:<authKey>` on `mainPNS`, with the value set to the desired `authAddress`.
+3. Set a TEXT record `eip5131:vault` on `authPNS`, with the value set to the `<authKey>:mainAddress`.
 
 Currently this EIP does not enforce an upper-bound on the number of `authAddress` entries you can include. Users can repeat this process with as many address as they like.
 
@@ -87,26 +87,26 @@ Currently this EIP does not enforce an upper-bound on the number of `authAddress
 Control of `mainAddress` and ownership of `mainAddress` assets is proven if any associated `authAddress` is the `msg.sender` or has signed the message.
 
 Practically, this would work by performing the following operations:
-1. Get the resolver for `authENS`
-2. Get the `eip5131:vault` TEXT record of `authENS`
+1. Get the resolver for `authPNS`
+2. Get the `eip5131:vault` TEXT record of `authPNS`
 3. Parse `<authKey>:<mainAddress>` to determine the `authKey` and `mainAddress`.
-4. MUST get the reverse ENS record for `mainAddress` and verify that it matches `<mainENS>`.
-    - Otherwise one could set up other ENS nodes (with auths) that point to `mainAddress` and authenticate via those.
-5. Get the `eip5131:<authKey>` TEXT record of `mainENS` and ensure it matches `authAddress`.
+4. MUST get the reverse PNS record for `mainAddress` and verify that it matches `<mainPNS>`.
+    - Otherwise one could set up other PNS nodes (with auths) that point to `mainAddress` and authenticate via those.
+5. Get the `eip5131:<authKey>` TEXT record of `mainPNS` and ensure it matches `authAddress`.
 
 Note that this specification allows for both contract level and client/server side validation of signatures.  It is not limited to smart contracts, which is why there is no proposed external interface definition.
 
 ### Revocation of `authAddress`
-To revoke permission of `authAddress`, delete the `eip5131:<authKey>` TEXT record of `mainENS` or update it to point to a new `authAddress`.
+To revoke permission of `authAddress`, delete the `eip5131:<authKey>` TEXT record of `mainPNS` or update it to point to a new `authAddress`.
 
 ## Rationale
 
 ### Usage of EIP-137
-The proposed specification makes use of EIP-137 rather than introduce another registry paradigm. The reason for this is due to the existing wide adoption of EIP-137 and ENS.
+The proposed specification makes use of EIP-137 rather than introduce another registry paradigm. The reason for this is due to the existing wide adoption of EIP-137 and PNS.
 
-However, the drawback to EIP-137 is that any linked `authAddress` must contain some ETH in order to set the `authENS` reverse record as well as the `eip5131:vault` TEXT record. This can be solved by a separate reverse lookup registry that enables `mainAddress` to set the reverse record and TEXT record with a message signed by `authAddress`.
+However, the drawback to EIP-137 is that any linked `authAddress` must contain some ETH in order to set the `authPNS` reverse record as well as the `eip5131:vault` TEXT record. This can be solved by a separate reverse lookup registry that enables `mainAddress` to set the reverse record and TEXT record with a message signed by `authAddress`.
 
-With the advent of L2s and ENS Layer 2 functionalities, off chain verification of linked addresses is possible even with domains managed across different chains.
+With the advent of L2s and PNS Layer 2 functionalities, off chain verification of linked addresses is possible even with domains managed across different chains.
 
 ### One-to-Many Authentication Relationship
 This proposed specification allows for a one (`mainAddress`) to many (`authAddress`) authentication relationship.  i.e. one `mainAddress` can authorize many `authAddress` to authenticate, but an `authAddress` can only authenticate itself or a single `mainAddress`.
@@ -121,17 +121,17 @@ Further, you can design UX without any user interaction necessary to 'pick' the 
 In typescript, the validation function, using ethers.js would be as follows:
 ```
 export interface LinkedAddress {
-  ens: string,
+  pns: string,
   address: string,
 }
 
 export async function getLinkedAddress(
   provider: ethers.providers.EnsProvider, address: string
 ): Promise<LinkedAddress | null> {
-  const addressENS = await provider.lookupAddress(address);
-  if (!addressENS) return null;
+  const addressPNS = await provider.lookupAddress(address);
+  if (!addressPNS) return null;
 
-  const vaultInfo = await (await provider.getResolver(addressENS))?.getText('eip5131:vault');
+  const vaultInfo = await (await provider.getResolver(addressPNS))?.getText('eip5131:vault');
   if (!vaultInfo) return null;
 
   const vaultInfoArray = vaultInfo.split(':');
@@ -141,13 +141,13 @@ export async function getLinkedAddress(
 
   const [ authKey, vaultAddress ] = vaultInfoArray;
 
-  const vaultENS = await provider.lookupAddress(vaultAddress);
-  if (!vaultENS) {
-    throw new Error(`EIP5131: No ENS domain with reverse record set for vault.`);
+  const vaultPNS = await provider.lookupAddress(vaultAddress);
+  if (!vaultPNS) {
+    throw new Error(`EIP5131: No PNS domain with reverse record set for vault.`);
   };
 
   const expectedSigningAddress = await (
-    await provider.getResolver(vaultENS)
+    await provider.getResolver(vaultPNS)
   )?.getText(`eip5131:${authKey}`);
 
   if (expectedSigningAddress?.toLowerCase() !== address.toLowerCase()) {
@@ -155,7 +155,7 @@ export async function getLinkedAddress(
   };
 
   return {
-    ens: vaultENS,
+    pns: vaultPNS,
     address: vaultAddress
   };
 }
@@ -177,14 +177,14 @@ pragma solidity ^0.8.0;
 /// @author: manifold.xyz
 
 /**
- * ENS Registry Interface
+ * PNS Registry Interface
  */
-interface ENS {
+interface PNS {
     function resolver(bytes32 node) external view returns (address);
 }
 
 /**
- * ENS Resolver Interface
+ * PNS Resolver Interface
  */
 interface Resolver {
     function addr(bytes32 node) external view returns (address);
@@ -199,41 +199,41 @@ library LinkedAddress {
     /**
      * Validate that the message sender is an authentication address for mainAddress
      *
-     * @param ensRegistry    Address of ENS registry
+     * @param ensRegistry    Address of PNS registry
      * @param mainAddress     The main address we want to authenticate for.
-     * @param mainENSNodeHash The main ENS Node Hash
+     * @param mainPNSNodeHash The main PNS Node Hash
      * @param authKey         The TEXT record of the authKey we are using for validation
-     * @param authENSNodeHash The auth ENS Node Hash
+     * @param authPNSNodeHash The auth PNS Node Hash
      */
     function validateSender(
         address ensRegistry,
         address mainAddress,
-        bytes32 mainENSNodeHash,
+        bytes32 mainPNSNodeHash,
         string calldata authKey,
-        bytes32 authENSNodeHash
+        bytes32 authPNSNodeHash
     ) internal view returns (bool) {
-        return validate(ensRegistry, mainAddress, mainENSNodeHash, authKey, msg.sender, authENSNodeHash);
+        return validate(ensRegistry, mainAddress, mainPNSNodeHash, authKey, msg.sender, authPNSNodeHash);
     }
 
     /**
      * Validate that the authAddress is an authentication address for mainAddress
      *
-     * @param ensRegistry     Address of ENS registry
+     * @param ensRegistry     Address of PNS registry
      * @param mainAddress     The main address we want to authenticate for.
-     * @param mainENSNodeHash The main ENS Node Hash
+     * @param mainPNSNodeHash The main PNS Node Hash
      * @param authAddress     The address of the authentication wallet
-     * @param authENSNodeHash The auth ENS Node Hash
+     * @param authPNSNodeHash The auth PNS Node Hash
      */
     function validate(
         address ensRegistry,
         address mainAddress,
-        bytes32 mainENSNodeHash,
+        bytes32 mainPNSNodeHash,
         string calldata authKey,
         address authAddress,
-        bytes32 authENSNodeHash
+        bytes32 authPNSNodeHash
     ) internal view returns (bool) {
-        _verifyMainENS(ensRegistry, mainAddress, mainENSNodeHash, authKey, authAddress);
-        _verifyAuthENS(ensRegistry, mainAddress, authKey, authAddress, authENSNodeHash);
+        _verifyMainPNS(ensRegistry, mainAddress, mainPNSNodeHash, authKey, authAddress);
+        _verifyAuthPNS(ensRegistry, mainAddress, authKey, authAddress, authPNSNodeHash);
 
         return true;
     }
@@ -241,40 +241,40 @@ library LinkedAddress {
     // *********************
     //   Helper Functions
     // *********************
-    function _verifyMainENS(
+    function _verifyMainPNS(
         address ensRegistry,
         address mainAddress,
-        bytes32 mainENSNodeHash,
+        bytes32 mainPNSNodeHash,
         string calldata authKey,
         address authAddress
     ) private view {
-        // Check if the ENS nodes resolve correctly to the provided addresses
-        address mainResolver = ENS(ensRegistry).resolver(mainENSNodeHash);
-        require(mainResolver != address(0), "Main ENS not registered");
-        require(mainAddress == Resolver(mainResolver).addr(mainENSNodeHash), "Main address is wrong");
+        // Check if the PNS nodes resolve correctly to the provided addresses
+        address mainResolver = PNS(ensRegistry).resolver(mainPNSNodeHash);
+        require(mainResolver != address(0), "Main PNS not registered");
+        require(mainAddress == Resolver(mainResolver).addr(mainPNSNodeHash), "Main address is wrong");
 
-        // Verify the authKey TEXT record is set to authAddress by mainENS
-        string memory authText = Resolver(mainResolver).text(mainENSNodeHash, string(abi.encodePacked("eip5131:", authKey)));
+        // Verify the authKey TEXT record is set to authAddress by mainPNS
+        string memory authText = Resolver(mainResolver).text(mainPNSNodeHash, string(abi.encodePacked("eip5131:", authKey)));
         require(
             keccak256(bytes(authText)) == keccak256(bytes(_addressToString(authAddress))),
             "Invalid auth address"
         );
     }
 
-    function _verifyAuthENS(
+    function _verifyAuthPNS(
         address ensRegistry,
         address mainAddress,
         string memory authKey,
         address authAddress,
-        bytes32 authENSNodeHash
+        bytes32 authPNSNodeHash
     ) private view {
-        // Check if the ENS nodes resolve correctly to the provided addresses
-        address authResolver = ENS(ensRegistry).resolver(authENSNodeHash);
-        require(authResolver != address(0), "Auth ENS not registered");
-        require(authAddress == Resolver(authResolver).addr(authENSNodeHash), "Auth address is wrong");
+        // Check if the PNS nodes resolve correctly to the provided addresses
+        address authResolver = PNS(ensRegistry).resolver(authPNSNodeHash);
+        require(authResolver != address(0), "Auth PNS not registered");
+        require(authAddress == Resolver(authResolver).addr(authPNSNodeHash), "Auth address is wrong");
 
-        // Verify the TEXT record is appropriately set by authENS
-        string memory vaultText = Resolver(authResolver).text(authENSNodeHash, "eip5131:vault");
+        // Verify the TEXT record is appropriately set by authPNS
+        string memory vaultText = Resolver(authResolver).text(authPNSNodeHash, "eip5131:vault");
         require(
             keccak256(abi.encodePacked(authKey, ":", _addressToString(mainAddress))) ==
                 keccak256(bytes(vaultText)),
@@ -338,4 +338,4 @@ library LinkedAddress {
 The core purpose of this EIP is to enhance security and promote a safer way to authenticate wallet control and asset ownership when the main wallet is not needed and assets held by the main wallet do not need to be moved. Consider it a way to do 'read only' authentication.
 
 ## Copyright
-Copyright and related rights waived via [CC0](../LICENSE.md).
+Copyright and related rights waived via [CC0](../LICPNSE.md).

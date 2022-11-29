@@ -1,28 +1,28 @@
-# ENS Layer2 and offchain data support
+# PNS Layer2 and offchain data support
 
 ## Summary
 
-With the proliferation of layer 2 solutions for Ethereum that are starting to reach maturity, it's important that ENS is able to provide resolution services across the entire ecosystem, as well as making it possible for ENS users to take advantage of the efficiencies made possible by Layer 2 solutions. Subsequent to a post by [Vitalik](https://ethereum-magicians.org/t/a-general-purpose-l2-friendly-ens-standard/4591) that suggested a possible means for this, the ENS team and the wider ENS and L2 community have been working on a general-purpose "Layer 2 bridge" that makes cross-platform interoperability possible for both ENS and other applications that need to be able to retrieve data from a variety of offchain sources (any data that resides outside of Ethereum Mainnet also known as layer 1/L1. This includes both propriety database and layer 2/L2 solutions such as Optimism, Arbitrum, Starkware, ZKSync, and so on) in a trustless fashion and came up with standards.
+With the proliferation of layer 2 solutions for Ethereum that are starting to reach maturity, it's important that PNS is able to provide resolution services across the entire ecosystem, as well as making it possible for PNS users to take advantage of the efficiencies made possible by Layer 2 solutions. Subsequent to a post by [Vitalik](https://ethereum-magicians.org/t/a-general-purpose-l2-friendly-pns-standard/4591) that suggested a possible means for this, the PNS team and the wider PNS and L2 community have been working on a general-purpose "Layer 2 bridge" that makes cross-platform interoperability possible for both PNS and other applications that need to be able to retrieve data from a variety of offchain sources (any data that resides outside of Ethereum Mainnet also known as layer 1/L1. This includes both propriety database and layer 2/L2 solutions such as Optimism, Arbitrum, Starkware, ZKSync, and so on) in a trustless fashion and came up with standards.
 
 - [EIP-3668: CCIP Read: Secure offchain data retrieval](https://eips.ethereum.org/EIPS/eip-3668)
 - [EIP-5559: Cross Chain Write Deferral Protocol](https://eips.ethereum.org/EIPS/eip-5559)
-- [ENSIP 10: Wildcard Resolution](/ens-improvement-proposals/ensip-10-wildcard-resolution/)
+- [PNSIP 10: Wildcard Resolution](/pns-improvement-proposals/ensip-10-wildcard-resolution/)
 
 **EIP 3668** (Final) allows for offchain (including Layer 2/L2) lookups of data in a way that is transparent to clients and provides contract authors to implement whatever validation is necessary; in many cases, this can be provided without any additional trust assumptions over and above those required if data is stored onchain.
 
 **EIP 5559** (Draft) provides a mechanism in which smart contracts can request various tasks to be resolved by an external handler. This provides a mechanism in which protocols can reduce the gas fees associated with storing data on mainnet by deferring the handling of it to another system/network. These external handlers act as an extension to the core L1 contract.
 
-**ENSIP 10** (Draft) is a general way to resolve wildcard (eg: \*.foo.eth) on L1. Issuing subdomains and moving the resolution of the parent name offchain allows dapps to create subdomains offchain yet make it accessible through L1.
+**PNSIP 10** (Draft) is a general way to resolve wildcard (eg: \*.foo.eth) on L1. Issuing subdomains and moving the resolution of the parent name offchain allows dapps to create subdomains offchain yet make it accessible through L1.
 
 ## Steps required for Dapps and wallets to support offchain data lookup.
 
-If your dapps or wallets use one of those libraries, the EIP 3668 and ENSIP 10 support will be built in, so simply update the library when ready. EIP 5559 is still in its early stage of draft and the content will be evolving
+If your dapps or wallets use one of those libraries, the EIP 3668 and PNSIP 10 support will be built in, so simply update the library when ready. EIP 5559 is still in its early stage of draft and the content will be evolving
 
 ### [ethersjs](https://github.com/ethers-io/ethers.js)
 
-ethers.js 5.6.2 supports both EIP3668 and ENSIP 10.
+ethers.js 5.6.2 supports both EIP3668 and PNSIP 10.
 
-No code change is required as long as your app is interacting with ENS through [etherjs ENS methods](https://docs.ethers.io/v5/api/providers/provider/#Provider--ens-methods).
+No code change is required as long as your app is interacting with PNS through [etherjs PNS methods](https://docs.ethers.io/v5/api/providers/provider/#Provider--pns-methods).
 
 To try out these features, `offchainexample.eth` points to so-called "offchain resolver" that fetches data from JSON configuration file hosted on google app engine. It will reply data to any record for offchainexample.eth and its subdomain record such as `2.offchainexample.eth`. The example resolver is not using L2 data but the same mechanism works when the L2 resolver becomes ready.
 
@@ -47,18 +47,18 @@ $node index.js
 {
   resolver: '0xC1735677a60884ABbCF72295E88d47764BeDa282',
   address: '0x41563129cDbbD0c5D3e1c86cf9563926b243834d',
-  email: 'nick@ens.domains'
+  email: 'nick@pns.domains'
 }
 ```
 
-Please refer to [offchain resolver client example code](https://github.com/ensdomains/offchain-resolver/blob/main/packages/client/src/index.ts#L46) for more detail.
+Please refer to [offchain resolver client example code](https://github.com/pnsdomains/offchain-resolver/blob/main/packages/client/src/index.ts#L46) for more detail.
 
 ### Other supported libraries.
 
 - [web3.py](https://web3py.readthedocs.io/en/stable/) (Python)
 - [web3j](https://docs.web3j.io/) (Java)
 
-If you use other libraries or custom integration, please raise the GitHub issue to the project repo or at [ENS project management repo](https://github.com/ensdomains/pm/issues) if the equivalent repo does not exist so that ENS team can keep track of the progress.
+If you use other libraries or custom integration, please raise the GitHub issue to the project repo or at [PNS project management repo](https://github.com/pnsdomains/pm/issues) if the equivalent repo does not exist so that PNS team can keep track of the progress.
 
 ### Wallets integrated
 
@@ -70,11 +70,11 @@ If you use other libraries or custom integration, please raise the GitHub issue 
 
 ## Steps required for Dapps and wallets to issue subdomains offchain
 
-If you wish to issue subdomains using offchain data storage, please follow [offchain resolver](https://github.com/ensdomains/offchain-resolver) as a reference point. The example uses a flat file as a data source but can easily be replaced with database calls.
+If you wish to issue subdomains using offchain data storage, please follow [offchain resolver](https://github.com/pnsdomains/offchain-resolver) as a reference point. The example uses a flat file as a data source but can easily be replaced with database calls.
 
 The following projects have integrated with the Offchain resolver for issuing their subdomains
 
-- [cb.id by Coinbase](https://help.coinbase.com/en/wallet/managing-account/coinbase-ens-support)
+- [cb.id by Coinbase](https://help.coinbase.com/en/wallet/managing-account/coinbase-pns-support)
 - [optinames](https://optinames.eth.limo) = The code is closed sourced but you can read [the verified contract code](https://etherscan.io/address/0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41#code)
 
 L2 support is still a work in progress.
@@ -93,11 +93,11 @@ For names that are not hosted on a supported L2, we won't be able to fetch data 
 
 ### How do you support other EVM compatible chains?
 
-Non-L2 chains lack ways to verify data on L1 in the trustless manner. The alternative is for chain bridge operators to act as a trusted third-party and hosts the offchain gateway, or individual dapps hosts own gateway and sign each data with the private key of the ENS name.
+Non-L2 chains lack ways to verify data on L1 in the trustless manner. The alternative is for chain bridge operators to act as a trusted third-party and hosts the offchain gateway, or individual dapps hosts own gateway and sign each data with the private key of the PNS name.
 
 ### Can I issue a new tld unique to an offchain environment?
 
-No. Please read ["Why ENS Doesn't Create More TLDs: Responsible Citizenship in the Global Namespace"](https://medium.com/the-ethereum-name-service/why-ens-doesnt-create-more-tlds-responsible-citizenship-in-the-global-namespace-7e66658fe2b1) for more detail
+No. Please read ["Why PNS Doesn't Create More TLDs: Responsible Citizenship in the Global Namespace"](https://medium.com/the-ethereum-name-service/why-pns-doesnt-create-more-tlds-responsible-citizenship-in-the-global-namespace-7e66658fe2b1) for more detail
 
 ### Can I set a primary name to names on offchain?
 
@@ -105,23 +105,23 @@ Yes, you can. However, reverse registrar (it is a hidden top-level domain starti
 
 ### Can I register .eth name on offchain?
 
-Only when we migrate .eth name to a specific L2 as one of the last steps of our migration after finding out which L2 supports ENS integration the best.
+Only when we migrate .eth name to a specific L2 as one of the last steps of our migration after finding out which L2 supports PNS integration the best.
 
 ### How do I handle contract addresses?
 
-Unlike EOA (Externally Owned Account), contract based accounts such as multisig may only be accessible in certain chains. [ENSIP-11](ens-improvement-proposals/ensip-11-evmchain-address-resolution.md) allows a single name to hold different addresses across multiple EVM compatible chains and recommendation is to store contract addresses to EVM chain specific address record field.
+Unlike EOA (Externally Owned Account), contract based accounts such as multisig may only be accessible in certain chains. [PNSIP-11](pns-improvement-proposals/ensip-11-evmchain-address-resolution.md) allows a single name to hold different addresses across multiple EVM compatible chains and recommendation is to store contract addresses to EVM chain specific address record field.
 
 ### Can I use libraries from other name services that support .eth?
 
-`@unstoppabledomains/resolution` removed [ENS support as of December 2021](https://github.com/unstoppabledomains/resolution/releases/tag/v7.0.0). Other services tend not to support all ENS TLDs especially DNS based TLDs (.com, .net, etc) so we advise not to rely on these libraries resolving ENS names.
+`@unstoppabledomains/resolution` removed [PNS support as of December 2021](https://github.com/unstoppabledomains/resolution/releases/tag/v7.0.0). Other services tend not to support all PNS TLDs especially DNS based TLDs (.com, .net, etc) so we advise not to rely on these libraries resolving PNS names.
 
 ## References and previous discussions
 
-- [MVP of ENS on L2 with Optimism: Demo Video + How to Try It Yourself](https://medium.com/the-ethereum-name-service/mvp-of-ens-on-l2-with-optimism-demo-video-how-to-try-it-yourself-b44c390cbd67)
+- [MVP of PNS on L2 with Optimism: Demo Video + How to Try It Yourself](https://medium.com/the-ethereum-name-service/mvp-of-pns-on-l2-with-optimism-demo-video-how-to-try-it-yourself-b44c390cbd67)
 - [A general-purpose bridge for Ethereum Layer 2s](https://medium.com/the-ethereum-name-service/a-general-purpose-bridge-for-ethereum-layer-2s-e28810ec1d88)
-- [A general-purpose L2-friendly ENS standard](https://ethereum-magicians.org/t/a-general-purpose-l2-friendly-ens-standard/4591)
-- [Video: ENS Workshop on 18th Oct 2021](https://www.youtube.com/watch?v=L9N7U_bNmOU)
-- [Video: ENS Workshop on 6th April 2021](https://www.youtube.com/watch?v=9DdL7AQgXTM)
-- [Video: ENS on Layer 2 meeting #2 on 28th Oct 2020](https://www.youtube.com/watch?v=QwEiAedSNYI)
-- [Video: ENS on Layer 2 meeting on 13th Oct 2020](https://www.youtube.com/watch?v=vloI0VT8DXE)
-- [Video: ENS workshop on 29th Sep 2020](https://www.youtube.com/watch?v=65z_j4n8mTk&t=2s)
+- [A general-purpose L2-friendly PNS standard](https://ethereum-magicians.org/t/a-general-purpose-l2-friendly-pns-standard/4591)
+- [Video: PNS Workshop on 18th Oct 2021](https://www.youtube.com/watch?v=L9N7U_bNmOU)
+- [Video: PNS Workshop on 6th April 2021](https://www.youtube.com/watch?v=9DdL7AQgXTM)
+- [Video: PNS on Layer 2 meeting #2 on 28th Oct 2020](https://www.youtube.com/watch?v=QwEiAedSNYI)
+- [Video: PNS on Layer 2 meeting on 13th Oct 2020](https://www.youtube.com/watch?v=vloI0VT8DXE)
+- [Video: PNS workshop on 29th Sep 2020](https://www.youtube.com/watch?v=65z_j4n8mTk&t=2s)

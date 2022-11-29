@@ -1,29 +1,29 @@
 ---
 description: >-
-  Introduces a field for storing content addresses and hashes in ENS (formerly
+  Introduces a field for storing content addresses and hashes in PNS (formerly
   EIP-1577).
 ---
 
-# ENSIP-7: Contenthash field
+# PNSIP-7: Contenthash field
 
-| **Author**  | Dean Eigenmann <[dean@ens.domains](mailto:dean@ens.domains)>, Nick Johnson <[nick@ens.domains](mailto:nick@ens.domains)> |
+| **Author**  | Dean Eigenmann <[dean@pns.domains](mailto:dean@pns.domains)>, Nick Johnson <[nick@pns.domains](mailto:nick@pns.domains)> |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------ |
 | **Status**  | Final                                                                                                                    |
 | **Created** | 2018-11-13                                                                                                               |
 
 ### Abstract
 
-This ENSIP introduces the new `contenthash` field for ENS resolvers, allowing for a better defined system of mapping names to network and content addresses. Additionally the `content` and `multihash` fields are deprecated.
+This PNSIP introduces the new `contenthash` field for PNS resolvers, allowing for a better defined system of mapping names to network and content addresses. Additionally the `content` and `multihash` fields are deprecated.
 
 ### Motivation
 
-Multiple applications including [Metamask](https://metamask.io) and mobile clients such as [Status](https://status.im) have begun resolving ENS names to content hosted on distributed systems such as [IPFS](https://ipfs.io) and [Swarm](https://swarm-guide.readthedocs.io). Due to the various ways content can be stored and addressed, a standard is required so these applications know how to resolve names and that domain owners know how their content will be resolved.
+Multiple applications including [Metamask](https://metamask.io) and mobile clients such as [Status](https://status.im) have begun resolving PNS names to content hosted on distributed systems such as [IPFS](https://ipfs.io) and [Swarm](https://swarm-guide.readthedocs.io). Due to the various ways content can be stored and addressed, a standard is required so these applications know how to resolve names and that domain owners know how their content will be resolved.
 
-The `contenthash` field allows for easy specification of network and content addresses in ENS.
+The `contenthash` field allows for easy specification of network and content addresses in PNS.
 
 ### Specification
 
-The field `contenthash` is introduced, which permits a wide range of protocols to be supported by ENS names. Resolvers supporting this field MUST return `true` when the `supportsInterface` function is called with argument `0xbc1c58d1`.
+The field `contenthash` is introduced, which permits a wide range of protocols to be supported by PNS names. Resolvers supporting this field MUST return `true` when the `supportsInterface` function is called with argument `0xbc1c58d1`.
 
 The fields `content` and `multihash` are deprecated.
 
@@ -98,7 +98,7 @@ bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162
 Example usage with swarm hash:
 
 ```
-$ swarm hash ens contenthash d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162                                 
+$ swarm hash pns contenthash d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162                                 
 > e40101fa011b20d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162
 ```
 
@@ -108,7 +108,7 @@ In order to support names that have an IPFS or Swarm hash in their `content` fie
 
 #### Implementation
 
-To support `contenthash`, a new resolver has been developed and can be found [here](https://github.com/ensdomains/resolvers/blob/master/contracts/PublicResolver.sol), you can also find this smart contract deployed on:
+To support `contenthash`, a new resolver has been developed and can be found [here](https://github.com/pnsdomains/resolvers/blob/master/contracts/PublicResolver.sol), you can also find this smart contract deployed on:
 
 * Mainnet : [0xd3ddccdd3b25a8a7423b5bee360a42146eb4baf3](https://etherscan.io/address/0xd3ddccdd3b25a8a7423b5bee360a42146eb4baf3)
 * Ropsten : [0xde469c7106a9fbc3fb98912bb00be983a89bddca](https://ropsten.etherscan.io/address/0xde469c7106a9fbc3fb98912bb00be983a89bddca)

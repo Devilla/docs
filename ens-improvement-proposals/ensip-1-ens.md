@@ -1,8 +1,8 @@
 ---
-description: Documentation of the basic ENS protocol (formerly EIP-137).
+description: Documentation of the basic PNS protocol (formerly EIP-137).
 ---
 
-# ENSIP-1: ENS
+# PNSIP-1: PNS
 
 | **Author**  | Nick Johnson \<arachnid@notdot.net> |
 | ----------- | ----------------------------------- |
@@ -11,7 +11,7 @@ description: Documentation of the basic ENS protocol (formerly EIP-137).
 
 ## Abstract
 
-This ENSIP describes the details of the Ethereum Name Service, a proposed protocol and ABI definition that provides flexible resolution of short, human-readable names to service and resource identifiers. This permits users and developers to refer to human-readable and easy to remember names, and permits those names to be updated as necessary when the underlying resource (contract, content-addressed data, etc) changes.
+This PNSIP describes the details of the Ethereum Name Service, a proposed protocol and ABI definition that provides flexible resolution of short, human-readable names to service and resource identifiers. This permits users and developers to refer to human-readable and easy to remember names, and permits those names to be updated as necessary when the underlying resource (contract, content-addressed data, etc) changes.
 
 The goal of domain names is to provide stable, human-readable identifiers that can be used to specify network resources. In this way, users can enter a memorable string, such as 'vitalik.wallet' or 'www.mysite.swarm', and be directed to the appropriate resource. The mapping between names and resources may change over time, so a user may change wallets, a website may change hosts, or a swarm document may be updated to a new version, without the domain name changing. Further, a domain need not specify a single resource; different record types allow the same domain to reference different resources. For instance, a browser may resolve 'mysite.swarm' to the IP address of its server by fetching its A (address) record, while a mail client may resolve the same address to a mail server by fetching its MX (mail exchanger) record.
 
@@ -30,7 +30,7 @@ Use-cases that these features would permit include:
 * Support for subnames/sub-domains - eg, live.mysite.tld and forum.mysite.tld.
 * Multiple services under a single name, such as a DApp hosted in Swarm, a Whisper address, and a mail server.
 * Support for DNS record types, allowing blockchain hosting of 'legacy' names. This would permit an Ethereum client such as Mist to resolve the address of a traditional website, or the mail server for an email address, from a blockchain name.
-* DNS gateways, exposing ENS domains via the Domain Name Service, providing easier means for legacy clients to resolve and connect to blockchain services.
+* DNS gateways, exposing PNS domains via the Domain Name Service, providing easier means for legacy clients to resolve and connect to blockchain services.
 
 The first two use-cases, in particular, can be observed everywhere on the present-day internet under DNS, and we believe them to be fundamental features of a name service that will continue to be useful as the Ethereum platform develops and matures.
 
@@ -44,25 +44,25 @@ Updating of domain records can also be handled separately from resolution. Some 
 
 ### Overview
 
-The ENS system comprises three main parts:
+The PNS system comprises three main parts:
 
-* The ENS registry
+* The PNS registry
 * Resolvers
 * Registrars
 
 The registry is a single contract that provides a mapping from any registered name to the resolver responsible for it, and permits the owner of a name to set the resolver address, and to create subdomains, potentially with different owners to the parent domain.
 
-Resolvers are responsible for performing resource lookups for a name - for instance, returning a contract address, a content hash, or IP address(es) as appropriate. The resolver specification, defined here and extended in other ENSIPs, defines what methods a resolver may implement to support resolving different types of records.
+Resolvers are responsible for performing resource lookups for a name - for instance, returning a contract address, a content hash, or IP address(es) as appropriate. The resolver specification, defined here and extended in other PNSIPs, defines what methods a resolver may implement to support resolving different types of records.
 
-Registrars are responsible for allocating domain names to users of the system, and are the only entities capable of updating the ENS; the owner of a node in the ENS registry is its registrar. Registrars may be contracts or externally owned accounts, though it is expected that the root and top-level registrars, at a minimum, will be implemented as contracts.
+Registrars are responsible for allocating domain names to users of the system, and are the only entities capable of updating the PNS; the owner of a node in the PNS registry is its registrar. Registrars may be contracts or externally owned accounts, though it is expected that the root and top-level registrars, at a minimum, will be implemented as contracts.
 
-Resolving a name in ENS is a two-step process. First, the ENS registry is called with the name to resolve, after hashing it using the procedure described below. If the record exists, the registry returns the address of its resolver. Then, the resolver is called, using the method appropriate to the resource being requested. The resolver then returns the desired result.
+Resolving a name in PNS is a two-step process. First, the PNS registry is called with the name to resolve, after hashing it using the procedure described below. If the record exists, the registry returns the address of its resolver. Then, the resolver is called, using the method appropriate to the resource being requested. The resolver then returns the desired result.
 
 For example, suppose you wish to find the address of the token contract associated with 'beercoin.eth'. First, get the resolver:
 
 ```javascript
 var node = namehash("beercoin.eth");
-var resolver = ens.resolver(node);
+var resolver = pns.resolver(node);
 ```
 
 Then, ask the resolver for the address for the contract:
@@ -71,11 +71,11 @@ Then, ask the resolver for the address for the contract:
 var address = resolver.addr(node);
 ```
 
-Because the `namehash` procedure depends only on the name itself, this can be precomputed and inserted into a contract, removing the need for string manipulation, and permitting O(1) lookup of ENS records regardless of the number of components in the raw name.
+Because the `namehash` procedure depends only on the name itself, this can be precomputed and inserted into a contract, removing the need for string manipulation, and permitting O(1) lookup of PNS records regardless of the number of components in the raw name.
 
 ### Name Syntax
 
-ENS names must conform to the following syntax:
+PNS names must conform to the following syntax:
 
 ```
 <domain> ::= <label> | <domain> "." <label>
@@ -86,11 +86,11 @@ In short, names consist of a series of dot-separated labels. Each label must be 
 
 Note that while upper and lower case letters are allowed in names, the UTS46 normalisation process case-folds labels before hashing them, so two names with different case but identical spelling will produce the same namehash.
 
-Labels and domains may be of any length, but for compatibility with legacy DNS, it is recommended that labels be restricted to no more than 64 characters each, and complete ENS names to no more than 255 characters. For the same reason, it is recommended that labels do not start or end with hyphens, or start with digits.
+Labels and domains may be of any length, but for compatibility with legacy DNS, it is recommended that labels be restricted to no more than 64 characters each, and complete PNS names to no more than 255 characters. For the same reason, it is recommended that labels do not start or end with hyphens, or start with digits.
 
 ### namehash algorithm
 
-Before being used in ENS, names are hashed using the 'namehash' algorithm. This algorithm recursively hashes components of the name, producing a unique, fixed-length string for any valid input domain. The output of namehash is referred to as a 'node'.
+Before being used in PNS, names are hashed using the 'namehash' algorithm. This algorithm recursively hashes components of the name, producing a unique, fixed-length string for any valid input domain. The output of namehash is referred to as a 'node'.
 
 Pseudocode for the namehash algorithm is as follows:
 
@@ -121,7 +121,7 @@ namehash('foo.eth') = 0xde9b09fd7c5f901e23a3f19fecc54828e9c848539801e86591bd9801
 
 ### Registry specification
 
-The ENS registry contract exposes the following functions:
+The PNS registry contract exposes the following functions:
 
 ```solidity
 function owner(bytes32 node) constant returns (address);
@@ -175,7 +175,7 @@ Resolvers have one mandatory function:
 function supportsInterface(bytes4 interfaceID) constant returns (bool)
 ```
 
-The `supportsInterface` function is documented in ENSIP-165, and returns true if the resolver implements the interface specified by the provided 4 byte identifier. An interface identifier consists of the XOR of the function signature hashes of the functions provided by that interface; in the degenerate case of single-function interfaces, it is simply equal to the signature hash of that function. If a resolver returns `true` for `supportsInterface()`, it must implement the functions specified in that interface.
+The `supportsInterface` function is documented in PNSIP-165, and returns true if the resolver implements the interface specified by the provided 4 byte identifier. An interface identifier consists of the XOR of the function signature hashes of the functions provided by that interface; in the degenerate case of single-function interfaces, it is simply equal to the signature hash of that function. If a resolver returns `true` for `supportsInterface()`, it must implement the functions specified in that interface.
 
 `supportsInterface` must always return true for `0x01ffc9a7`, which is the interface ID of `supportsInterface` itself.
 
@@ -186,14 +186,14 @@ The following interfaces are defined:
 | Interface name        | Interface hash | Specification                                       |
 | --------------------- | -------------- | --------------------------------------------------- |
 | `addr`                | 0x3b3b57de     | Contract address                                    |
-| `name`                | 0x691f3431     | [ENSIP-3](ensip-3-reverse-resolution.md)            |
-| `ABI`                 | 0x2203ab56     | [ENSIP-4](ensip-4-support-for-contract-abis.md)     |
-| text                  | 0x59d1d43c     | [ENSIP-5](ensip-5-text-records.md)                  |
-| contenthash           | 0xbc1c58d1     | [ENSIP-7](ensip-7-contenthash-field.md)             |
-| interfaceImplementer  | 0xb8f2bbb4     | [ENSIP-8](ensip-8-interface-discovery.md)           |
-| addr(bytes32,uint256) | 0xf1cb7e06     | [ENSIP-9](ensip-9-multichain-address-resolution.md) |
+| `name`                | 0x691f3431     | [PNSIP-3](ensip-3-reverse-resolution.md)            |
+| `ABI`                 | 0x2203ab56     | [PNSIP-4](ensip-4-support-for-contract-abis.md)     |
+| text                  | 0x59d1d43c     | [PNSIP-5](ensip-5-text-records.md)                  |
+| contenthash           | 0xbc1c58d1     | [PNSIP-7](ensip-7-contenthash-field.md)             |
+| interfaceImplementer  | 0xb8f2bbb4     | [PNSIP-8](ensip-8-interface-discovery.md)           |
+| addr(bytes32,uint256) | 0xf1cb7e06     | [PNSIP-9](ensip-9-multichain-address-resolution.md) |
 
-ENSIPs may define new interfaces to be added to this registry.
+PNSIPs may define new interfaces to be added to this registry.
 
 #### Contract Address Interface <a href="#addr" id="addr"></a>
 
@@ -216,7 +216,7 @@ event AddrChanged(bytes32 indexed node, address a);
 ## Appendix A: Registry Implementation
 
 ```solidity
-contract ENS {
+contract PNS {
     struct Record {
         address owner;
         address resolver;
@@ -234,7 +234,7 @@ contract ENS {
         _
     }
 
-    function ENS(address owner) {
+    function PNS(address owner) {
         records[0].owner = owner;
     }
 
@@ -297,7 +297,7 @@ contract DoSomethingUseful {
 }
 ```
 
-Such a contract can be inserted directly into the ENS registry, eliminating the need for a separate resolver contract in simple use-cases. However, the requirement to 'throw' on unknown function calls may interfere with normal operation of some types of contract.
+Such a contract can be inserted directly into the PNS registry, eliminating the need for a separate resolver contract in simple use-cases. However, the requirement to 'throw' on unknown function calls may interfere with normal operation of some types of contract.
 
 #### Standalone resolver
 
@@ -338,27 +338,27 @@ contract Resolver {
 }
 ```
 
-After deploying this contract, use it by updating the ENS registry to reference this contract for a name, then calling `setAddr()` with the same node to set the contract address it will resolve to.
+After deploying this contract, use it by updating the PNS registry to reference this contract for a name, then calling `setAddr()` with the same node to set the contract address it will resolve to.
 
 #### Public resolver
 
-Similar to the resolver above, this contract only supports the contract address profile, but uses the ENS registry to determine who should be allowed to update entries:
+Similar to the resolver above, this contract only supports the contract address profile, but uses the PNS registry to determine who should be allowed to update entries:
 
 ```solidity
 contract PublicResolver {
     event AddrChanged(bytes32 indexed node, address a);
     event ContentChanged(bytes32 indexed node, bytes32 hash);
 
-    ENS ens;
+    PNS pns;
     mapping(bytes32=>address) addresses;
 
     modifier only_owner(bytes32 node) {
-        if(ens.owner(node) != msg.sender) throw;
+        if(pns.owner(node) != msg.sender) throw;
         _
     }
 
     function PublicResolver(address ensAddr) {
-        ens = ENS(ensAddr);
+        pns = PNS(ensAddr);
     }
 
     function addr(bytes32 node) constant returns (address ret) {
@@ -386,21 +386,21 @@ This registrar allows users to register names at no cost if they are the first t
 
 ```solidity
 contract FIFSRegistrar {
-    ENS ens;
+    PNS pns;
     bytes32 rootNode;
 
     function FIFSRegistrar(address ensAddr, bytes32 node) {
-        ens = ENS(ensAddr);
+        pns = PNS(ensAddr);
         rootNode = node;
     }
 
     function register(bytes32 subnode, address owner) {
         var node = sha3(rootNode, subnode);
-        var currentOwner = ens.owner(node);
+        var currentOwner = pns.owner(node);
         if(currentOwner != 0 && currentOwner != msg.sender)
             throw;
 
-        ens.setSubnodeOwner(rootNode, subnode, owner);
+        pns.setSubnodeOwner(rootNode, subnode, owner);
     }
 }
 ```

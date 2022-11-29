@@ -1,19 +1,19 @@
 ---
 description: >-
   Specifies a TLD, registrar, and resolver interface for reverse resolution of
-  Ethereum addresses using ENS (formerly EIP-181).
+  Ethereum addresses using PNS (formerly EIP-181).
 ---
 
-# ENSIP-3: Reverse Resolution
+# PNSIP-3: Reverse Resolution
 
-| **Author**    | Nick Johnson \<nick@ens.domains> |
+| **Author**    | Nick Johnson \<nick@pns.domains> |
 | ------------- | -------------------------------- |
 | **Status**    | Final                            |
 | **Submitted** | 2016-12-01                       |
 
 ## Abstract
 
-This ENSIP specifies a TLD, registrar, and resolver interface for reverse resolution of Ethereum addresses using ENS. This permits associating a human-readable name with any Ethereum blockchain address. Resolvers can be certain that the reverse record was published by the owner of the Ethereum address in question.
+This PNSIP specifies a TLD, registrar, and resolver interface for reverse resolution of Ethereum addresses using PNS. This permits associating a human-readable name with any Ethereum blockchain address. Resolvers can be certain that the reverse record was published by the owner of the Ethereum address in question.
 
 ## Motivation
 
@@ -25,7 +25,7 @@ While name services are mostly used for forward resolution - going from human-re
 
 ## Specification
 
-Reverse ENS records are stored in the ENS hierarchy in the same fashion as regular records, under a reserved domain, `addr.reverse`. To generate the ENS name for a given account's reverse records, convert the account to hexadecimal representation in lower-case, and append `addr.reverse`. For instance, the ENS registry's address at `0x112234455c3a32fd11230c42e7bccd4a84e02010` has any reverse records stored at `112234455c3a32fd11230c42e7bccd4a84e02010.addr.reverse`.
+Reverse PNS records are stored in the PNS hierarchy in the same fashion as regular records, under a reserved domain, `addr.reverse`. To generate the PNS name for a given account's reverse records, convert the account to hexadecimal representation in lower-case, and append `addr.reverse`. For instance, the PNS registry's address at `0x112234455c3a32fd11230c42e7bccd4a84e02010` has any reverse records stored at `112234455c3a32fd11230c42e7bccd4a84e02010.addr.reverse`.
 
 Note that this means that contracts wanting to do dynamic reverse resolution of addresses will need to perform hex encoding in the contract.
 
@@ -35,9 +35,9 @@ The owner of the `addr.reverse` domain will be a registrar that permits the call
 
 #### function claim(address owner) returns (bytes32 node)
 
-When called by account `x`, instructs the ENS registry to transfer ownership of the name `hex(x) + '.addr.reverse'` to the provided address, and return the namehash of the ENS record thus transferred.
+When called by account `x`, instructs the PNS registry to transfer ownership of the name `hex(x) + '.addr.reverse'` to the provided address, and return the namehash of the PNS record thus transferred.
 
-Allowing the caller to specify an owner other than themselves for the relevant node facilitates contracts that need accurate reverse ENS entries delegating this to their creators with a minimum of code inside their constructor:
+Allowing the caller to specify an owner other than themselves for the relevant node facilitates contracts that need accurate reverse PNS entries delegating this to their creators with a minimum of code inside their constructor:
 
 ```
 reverseRegistrar.claim(msg.sender)
@@ -45,7 +45,7 @@ reverseRegistrar.claim(msg.sender)
 
 #### function claimWithResolver(address owner, address resolver) returns (bytes32 node)
 
-When called by account `x`, instructs the ENS registry to set the resolver of the name `hex(x) + '.addr.reverse'` to the specified resolver, then transfer ownership of the name to the provided address, and return the namehash of the ENS record thus transferred. This method facilitates setting up a custom resolver and owner in fewer transactions than would be required if calling `claim`.
+When called by account `x`, instructs the PNS registry to set the resolver of the name `hex(x) + '.addr.reverse'` to the specified resolver, then transfer ownership of the name to the provided address, and return the namehash of the PNS record thus transferred. This method facilitates setting up a custom resolver and owner in fewer transactions than would be required if calling `claim`.
 
 #### function setName(string name) returns (bytes32 node)
 
@@ -59,11 +59,11 @@ A new resolver interface is defined, consisting of the following method:
 function name(bytes32 node) constant returns (string);
 ```
 
-Resolvers that implement this interface must return a valid ENS name for the requested node, or the empty string if no name is defined for the requested node.
+Resolvers that implement this interface must return a valid PNS name for the requested node, or the empty string if no name is defined for the requested node.
 
 The interface ID of this interface is 0x691f3431.
 
-Future ENSIPs may specify more record types appropriate to reverse ENS records.
+Future PNSIPs may specify more record types appropriate to reverse PNS records.
 
 ## Appendix 1: Registrar implementation
 
@@ -72,7 +72,7 @@ This registrar, written in Solidity, implements the specifications outlined abov
 ```
 pragma solidity ^0.4.10;
 
-import "./AbstractENS.sol";
+import "./AbstractPNS.sol";
 
 contract Resolver {
     function setName(bytes32 node, string name) public;
@@ -83,15 +83,15 @@ contract Resolver {
  * which permits only the owner to update it.
  */
 contract DefaultReverseResolver is Resolver {
-    AbstractENS public ens;
+    AbstractPNS public pns;
     mapping(bytes32=>string) public name;
 
     /**
      * @dev Constructor
-     * @param ensAddr The address of the ENS registry.
+     * @param ensAddr The address of the PNS registry.
      */
-    function DefaultReverseResolver(AbstractENS ensAddr) {
-        ens = ensAddr;
+    function DefaultReverseResolver(AbstractPNS ensAddr) {
+        pns = ensAddr;
     }
 
     /**
@@ -99,7 +99,7 @@ contract DefaultReverseResolver is Resolver {
      * @param node The node permission is required for.
      */
     modifier owner_only(bytes32 node) {
-        require(msg.sender == ens.owner(node));
+        require(msg.sender == pns.owner(node));
         _;
     }
 
@@ -117,65 +117,65 @@ contract ReverseRegistrar {
     // namehash('addr.reverse')
     bytes32 constant ADDR_REVERSE_NODE = 0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2;
 
-    AbstractENS public ens;
+    AbstractPNS public pns;
     Resolver public defaultResolver;
 
     /**
      * @dev Constructor
-     * @param ensAddr The address of the ENS registry.
+     * @param ensAddr The address of the PNS registry.
      * @param resolverAddr The address of the default reverse resolver.
      */
-    function ReverseRegistrar(AbstractENS ensAddr, Resolver resolverAddr) {
-        ens = ensAddr;
+    function ReverseRegistrar(AbstractPNS ensAddr, Resolver resolverAddr) {
+        pns = ensAddr;
         defaultResolver = resolverAddr;
     }
 
     /**
-     * @dev Transfers ownership of the reverse ENS record associated with the
+     * @dev Transfers ownership of the reverse PNS record associated with the
      *      calling account.
-     * @param owner The address to set as the owner of the reverse record in ENS.
-     * @return The ENS node hash of the reverse record.
+     * @param owner The address to set as the owner of the reverse record in PNS.
+     * @return The PNS node hash of the reverse record.
      */
     function claim(address owner) returns (bytes32 node) {
         return claimWithResolver(owner, 0);
     }
 
     /**
-     * @dev Transfers ownership of the reverse ENS record associated with the
+     * @dev Transfers ownership of the reverse PNS record associated with the
      *      calling account.
-     * @param owner The address to set as the owner of the reverse record in ENS.
+     * @param owner The address to set as the owner of the reverse record in PNS.
      * @param resolver The address of the resolver to set; 0 to leave unchanged.
-     * @return The ENS node hash of the reverse record.
+     * @return The PNS node hash of the reverse record.
      */
     function claimWithResolver(address owner, address resolver) returns (bytes32 node) {
         var label = sha3HexAddress(msg.sender);
         node = sha3(ADDR_REVERSE_NODE, label);
-        var currentOwner = ens.owner(node);
+        var currentOwner = pns.owner(node);
 
         // Update the resolver if required
-        if(resolver != 0 && resolver != ens.resolver(node)) {
+        if(resolver != 0 && resolver != pns.resolver(node)) {
             // Transfer the name to us first if it's not already
             if(currentOwner != address(this)) {
-                ens.setSubnodeOwner(ADDR_REVERSE_NODE, label, this);
+                pns.setSubnodeOwner(ADDR_REVERSE_NODE, label, this);
                 currentOwner = address(this);
             }
-            ens.setResolver(node, resolver);
+            pns.setResolver(node, resolver);
         }
 
         // Update the owner if required
         if(currentOwner != owner) {
-            ens.setSubnodeOwner(ADDR_REVERSE_NODE, label, owner);
+            pns.setSubnodeOwner(ADDR_REVERSE_NODE, label, owner);
         }
 
         return node;
     }
 
     /**
-     * @dev Sets the `name()` record for the reverse ENS record associated with
+     * @dev Sets the `name()` record for the reverse PNS record associated with
      * the calling account. First updates the resolver to the default reverse
      * resolver if necessary.
      * @param name The name to set for this address.
-     * @return The ENS node hash of the reverse record.
+     * @return The PNS node hash of the reverse record.
      */
     function setName(string name) returns (bytes32 node) {
         node = claimWithResolver(this, defaultResolver);
@@ -186,7 +186,7 @@ contract ReverseRegistrar {
     /**
      * @dev Returns the node hash for a given account's reverse records.
      * @param addr The address to hash
-     * @return The ENS node hash.
+     * @return The PNS node hash.
      */
     function node(address addr) constant returns (bytes32 ret) {
         return sha3(ADDR_REVERSE_NODE, sha3HexAddress(addr));

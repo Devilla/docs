@@ -4,9 +4,9 @@ description: The default public resolver.
 
 # PublicResolver
 
-[Source](https://github.com/ensdomains/resolvers/blob/master/contracts/PublicResolver.sol)
+[Source](https://github.com/pnsdomains/resolvers/blob/master/contracts/PublicResolver.sol)
 
-PublicResolver implements a general-purpose ENS resolver that is suitable for most standard ENS use-cases. The public resolver permits updates to ENS records by the owner of the corresponding name.
+PublicResolver implements a general-purpose PNS resolver that is suitable for most standard PNS use-cases. The public resolver permits updates to PNS records by the owner of the corresponding name.
 
 The public resolver implements the following EIPs:
 
@@ -29,7 +29,7 @@ While the `PublicResolver`provides a convenient default implementation, many res
 function supportsInterface(bytes4 interfaceID) external pure returns (bool)
 ```
 
-ENS uses [ERC 165](https://eips.ethereum.org/EIPS/eip-165) for interface detection. ERC 165 requires that supporting contracts implement a function, `supportsInterface`, which takes an interface ID and returns a boolean value indicating if this interface is supported or not.
+PNS uses [ERC 165](https://eips.ethereum.org/EIPS/eip-165) for interface detection. ERC 165 requires that supporting contracts implement a function, `supportsInterface`, which takes an interface ID and returns a boolean value indicating if this interface is supported or not.
 
 Interface IDs are calculated as the exclusive-or of the four-byte function identifiers of each function included in the interface. For example, `addr(bytes32)` has the function ID _0x3b3b57de_. Because it is the only function in the Ethereum Address interface, its interface ID is also _0x3b3b57de_, and so calling `supportsInterface(0x3b3b57de)` will return _true_ for any resolver that supports `addr()`.
 
@@ -81,7 +81,7 @@ The return value is the cryptocurrency address in its native binary format and e
 
 For example, the Bitcoin address `1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa` base58check decodes to the 21 bytes `0062e907b15cbf27d5425399ebf6f0fb50ebb88f18` then scriptPubkey encodes to 25 bytes `76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac` whereas the BNB address `bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2` Bech32 decodes to the binary representation `40c2979694bbc961023d1d27be6fc4d21a9febe6`.
 
-To convert the binary representation into the address, use `formatsByCoinType[SYMBOL].encoder(binary)` of [address-encoder](https://github.com/ensdomains/address-encoder).
+To convert the binary representation into the address, use `formatsByCoinType[SYMBOL].encoder(binary)` of [address-encoder](https://github.com/pnsdomains/address-encoder).
 
 A zero-length string will be returned if the specified coin ID does not exist on the specified node.
 
@@ -95,7 +95,7 @@ Sets the blockchain address associated with the provided `node` and `coinType` t
 
 `coinType` is the cryptocurrency coin type index from [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md).
 
-To convert the address into the binary representation, use `formatsByName[SYMBOL].decoder(text)` of [address-encoder](https://github.com/ensdomains/address-encoder)
+To convert the address into the binary representation, use `formatsByName[SYMBOL].decoder(text)` of [address-encoder](https://github.com/pnsdomains/address-encoder)
 
 Only callable by the owner of `node`.
 
@@ -111,7 +111,7 @@ event AddressChanged(bytes32 indexed node, uint coinType, bytes newAddress);
 function name(bytes32 node) external view returns (string memory);
 ```
 
-Returns the canonical ENS name associated with the provided `node`. Used exclusively for reverse resolution.
+Returns the canonical PNS name associated with the provided `node`. Used exclusively for reverse resolution.
 
 This function has interface ID _0x691f3431_.
 
@@ -123,7 +123,7 @@ This function is specified in [EIP 181](https://eips.ethereum.org/EIPS/eip-181).
 function setName(bytes32 node, string calldata name) external;
 ```
 
-Sets the canonical ENS name for the provided `node` to `name`.
+Sets the canonical PNS name for the provided `node` to `name`.
 
 Only callable by the owner of `node`.
 
@@ -141,7 +141,7 @@ function contenthash(bytes32 node) external view returns (bytes memory);
 
 Returns the content hash for `node`, if one exists. Values are formatted as machine-readable [multicodecs](https://github.com/multiformats/multicodec), as specified in [EIP 1577](https://eips.ethereum.org/EIPS/eip-1577).
 
-`contenthash` is used to store IPFS and Swarm content hashes, which permit resolving ENS addresses to distributed content (eg, websites) hosted on these distributed networks.
+`contenthash` is used to store IPFS and Swarm content hashes, which permit resolving PNS addresses to distributed content (eg, websites) hosted on these distributed networks.
 
 This function has interface ID _0xbc1c58d1_.
 

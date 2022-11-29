@@ -1,27 +1,27 @@
 ---
-description: Introduces coinType for EVM compatible chains (amending ENSIP9).
+description: Introduces coinType for EVM compatible chains (amending PNSIP9).
 ---
 
-# ENSIP-11: EVM compatible Chain Address Resolution
+# PNSIP-11: EVM compatible Chain Address Resolution
 
-| **Author**    | Makoto Inoue \<makoto@ens.domains> |
+| **Author**    | Makoto Inoue \<makoto@pns.domains> |
 | ------------- | ---------------------------------- |
 | **Status**    | Draft                              |
 | **Submitted** | 2022-01-13                         |
 
 ### Abstract
 
-This ENSIP extends [ENSIP 9 (multichain address resolution)](ensip-9-multichain-address-resolution.md), dedicates a range of coin types for EVM compatible chains, and specifies a way to derive EVM chain IDs to the designated coin types.
+This PNSIP extends [PNSIP 9 (multichain address resolution)](ensip-9-multichain-address-resolution.md), dedicates a range of coin types for EVM compatible chains, and specifies a way to derive EVM chain IDs to the designated coin types.
 
-The dedicated range uses over 0x80000000 (2147483648) which is reserved under ENSIP 9 so there will be no possibility of coin type collision with other non EVM coin types to be added in future. However, some of coin types previously allocated to EVM chain ides will be deprecated.
+The dedicated range uses over 0x80000000 (2147483648) which is reserved under PNSIP 9 so there will be no possibility of coin type collision with other non EVM coin types to be added in future. However, some of coin types previously allocated to EVM chain ides will be deprecated.
 
 ### Motivation
 
-The existing ENSIP 9 relies on the existence of coin types on [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) which was designed to define address encoding type for deterministic wallets. As the majority of EVM compatible chains inherit the same encoding type as Ethereum, it is redundant to keep requesting the addition of EVM compatible chains into SLIP 44. This specification standardises a way to derive coinType based on [Chain ID](https://chainlist.org).
+The existing PNSIP 9 relies on the existence of coin types on [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) which was designed to define address encoding type for deterministic wallets. As the majority of EVM compatible chains inherit the same encoding type as Ethereum, it is redundant to keep requesting the addition of EVM compatible chains into SLIP 44. This specification standardises a way to derive coinType based on [Chain ID](https://chainlist.org).
 
 ### Specification
 
-This specification amends ENSIP 9 to specify that coin types with the most-significant bit set are to be treated as EVM chain IDs. The MSB is reserved in SLIP44 for other purposes relating to HD wallet key derivation, so no coin types exist in this range.
+This specification amends PNSIP 9 to specify that coin types with the most-significant bit set are to be treated as EVM chain IDs. The MSB is reserved in SLIP44 for other purposes relating to HD wallet key derivation, so no coin types exist in this range.
 
 To compute the new coin type for EVM chains, bitwise-OR the chain ID with `0x80000000`: `0x80000000 | chainId`.
 
@@ -41,14 +41,14 @@ export const convertCoinTypeToEVMChainId = (coinType: number) =>{
 
 #### Implementation
 
-An implementation of this interface is provided in the [ensdomains/address-encoder](https://github.com/ensdomains/address-encoder/) repository.
+An implementation of this interface is provided in the [pnsdomains/address-encoder](https://github.com/pnsdomains/address-encoder/) repository.
 
 #### Example
 
 To compute the new coin type for EVM chains, call `convertEVMChainIdToCoinType(chainId)`
 
 ```javascript
-const encoder = require('@ensdomains/address-encoder')
+const encoder = require('@pnsdomains/address-encoder')
 >  encoder.convertEVMChainIdToCoinType(61)
 2147483709
 > encoder.convertCoinTypeToEVMChainId(2147483709)

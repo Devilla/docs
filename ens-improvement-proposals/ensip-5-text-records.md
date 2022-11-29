@@ -1,8 +1,8 @@
 ---
-description: A standard for storage of text records in ENS (formerly EIP-634).
+description: A standard for storage of text records in PNS (formerly EIP-634).
 ---
 
-# ENSIP-5: Text Records
+# PNSIP-5: Text Records
 
 | **Author**    | Richard Moore (@ricmoo) |
 | ------------- | ----------------------- |
@@ -11,13 +11,13 @@ description: A standard for storage of text records in ENS (formerly EIP-634).
 
 ### Abstract
 
-This ENSIP defines a resolver profile for ENS that permits the lookup of arbitrary key-value text data. This allows ENS name holders to associate e-mail addresses, URLs and other informational data with a ENS name.
+This PNSIP defines a resolver profile for PNS that permits the lookup of arbitrary key-value text data. This allows PNS name holders to associate e-mail addresses, URLs and other informational data with a PNS name.
 
 ### Motivation
 
 There is often a desire for human-readable metadata to be associated with otherwise machine-driven data; used for debugging, maintenance, reporting and general information.
 
-In this ENSIP we define a simple resolver profile for ENS that permits ENS names to associate arbitrary key-value text.
+In this PNSIP we define a simple resolver profile for PNS that permits PNS names to associate arbitrary key-value text.
 
 ### Specification
 
@@ -27,8 +27,8 @@ A new resolver interface is defined, consisting of the following method:
 
 ```solidity
 interface IERC634 {
-  /// @notice Returns the text data associated with a key for an ENS name
-  /// @param node A nodehash for an ENS name
+  /// @notice Returns the text data associated with a key for an PNS name
+  /// @param node A nodehash for an PNS name
   /// @param key A key to lookup text data for
   /// @return The text data
   function text(bytes32 node, string key) view returns (string text);
@@ -45,7 +45,7 @@ Global Keys must be made up of lowercase letters, numbers and the hyphen (-).
 
 * **avatar** - a URL to an image used as an avatar or logo
 * **description** - A description of the name
-* **display** - a canonical display name for the ENS name; this MUST match the ENS name when its case is folded, and clients should ignore this value if it does not (e.g. `"ricmoo.eth"` could set this to `"RicMoo.eth"`)
+* **display** - a canonical display name for the PNS name; this MUST match the PNS name when its case is folded, and clients should ignore this value if it does not (e.g. `"ricmoo.eth"` could set this to `"RicMoo.eth"`)
 * **email** - an e-mail address
 * **keywords** - A list of comma-separated keywords, ordered by most significant first; clients that interpresent this field may choose a threshold beyond which to ignore
 * **mail** - A physical mailing address
@@ -56,7 +56,7 @@ Global Keys must be made up of lowercase letters, numbers and the hyphen (-).
 
 #### Service Keys
 
-Service Keys must be made up of a _reverse dot notation_ for a namespace which the service owns, for example, DNS names (e.g. `.com`, `.io`, etc) or ENS name (i.e. `.eth`). Service Keys must contain at least one dot.
+Service Keys must be made up of a _reverse dot notation_ for a namespace which the service owns, for example, DNS names (e.g. `.com`, `.io`, etc) or PNS name (i.e. `.eth`). Service Keys must contain at least one dot.
 
 This allows new services to start using their own keys without worrying about colliding with existing services and also means new services do not need to update this document.
 
@@ -78,7 +78,7 @@ This technique also allows for a service owner to specify a hierarchy for their 
 
 #### Legacy Keys
 
-The following keys were specified in earlier versions of this ENSIP.
+The following keys were specified in earlier versions of this PNSIP.
 
 Their use is not likely very wide, but applications attempting maximal compatibility may wish to query these keys as a fallback if the above replacement keys fail.
 

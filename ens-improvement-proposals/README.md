@@ -1,6 +1,6 @@
 ---
-description: Standards documentation describing the ENS protocol
+description: Standards documentation describing the PNS protocol
 ---
 
-# ENS Improvement Proposals
+# PNS Improvement Proposals
 

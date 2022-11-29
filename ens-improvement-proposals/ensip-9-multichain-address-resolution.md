@@ -1,19 +1,19 @@
 ---
 description: >-
-  Introduces new overloads for the `addr` field for ENS resolvers, which permit
-  resolution of addresses for other blockchains via ENS (formerly EIP-2304).
+  Introduces new overloads for the `addr` field for PNS resolvers, which permit
+  resolution of addresses for other blockchains via PNS (formerly EIP-2304).
 ---
 
-# ENSIP-9: Multichain Address Resolution
+# PNSIP-9: Multichain Address Resolution
 
-| **Author**    | Nick Johnson \<nick@ens.domains> |
+| **Author**    | Nick Johnson \<nick@pns.domains> |
 | ------------- | -------------------------------- |
 | **Status**    | Final                            |
 | **Submitted** | 2019-09-09                       |
 
 ### Motivation
 
-With the increasing uptake of ENS by multi-coin wallets, wallet authors have requested the ability to resolve addresses for non-Ethereum chains inside ENS. This specification standardises a way to enter and retrieve these addresses in a cross-client fashion.
+With the increasing uptake of PNS by multi-coin wallets, wallet authors have requested the ability to resolve addresses for non-Ethereum chains inside PNS. This specification standardises a way to enter and retrieve these addresses in a cross-client fashion.
 
 ### Specification
 
@@ -104,7 +104,7 @@ When encoding an address from binary to text, an EIP55/RSKIP60 checksum MUST be 
 
 Ripple addresses are encoded using a version of base58check with an alternative alphabet, described [here](https://xrpl.org/base58-encodings.html). Two types of ripple addresses are supported, 'r-addresses', and 'X-addresss'. r-addresses consist of a version byte followed by a 20 byte hash, while X-addresses consist of a version byte, a 20 byte hash, and a tag, specified [here](https://github.com/xrp-community/standards-drafts/issues/6).
 
-Both address types should be stored in ENS by performing ripple's version of base58check decoding and storing them directly (including version byte). For example, the ripple address `rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn` decodes to and is stored as `004b4e9c06f24296074f7bc48f92a97916c6dc5ea9`, while the address `X7qvLs7gSnNoKvZzNWUT2e8st17QPY64PPe7zriLNuJszeg` decodes to and is stored as `05444b4e9c06f24296074f7bc48f92a97916c6dc5ea9000000000000000000`.
+Both address types should be stored in PNS by performing ripple's version of base58check decoding and storing them directly (including version byte). For example, the ripple address `rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn` decodes to and is stored as `004b4e9c06f24296074f7bc48f92a97916c6dc5ea9`, while the address `X7qvLs7gSnNoKvZzNWUT2e8st17QPY64PPe7zriLNuJszeg` decodes to and is stored as `05444b4e9c06f24296074f7bc48f92a97916c6dc5ea9000000000000000000`.
 
 **CashAddr**
 
@@ -114,11 +114,11 @@ Bitcoin Cash defines a new address format called 'CashAddr', specified [here](ht
 
 [Bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) addresses consist of a human-readable part - for example, 'bnb' for Binance - and a machine readable part. The encoded data is simply the address, which can be converted to binary and stored directly.
 
-For example, the BNB address `bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2` decodes to the binary representation `40c2979694bbc961023d1d27be6fc4d21a9febe6`, which is stored directly in ENS.
+For example, the BNB address `bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2` decodes to the binary representation `40c2979694bbc961023d1d27be6fc4d21a9febe6`, which is stored directly in PNS.
 
 #### Example
 
-An example implementation of a resolver that supports this ENSIP is provided here:
+An example implementation of a resolver that supports this PNSIP is provided here:
 
 ```solidity
 pragma solidity ^0.5.8;
@@ -134,8 +134,8 @@ contract AddrResolver is ResolverBase {
     mapping(bytes32=>mapping(uint=>bytes)) _addresses;
 
     /**
-     * Sets the address associated with an ENS node.
-     * May only be called by the owner of that node in the ENS registry.
+     * Sets the address associated with an PNS node.
+     * May only be called by the owner of that node in the PNS registry.
      * @param node The node to update.
      * @param a The address to set.
      */
@@ -144,8 +144,8 @@ contract AddrResolver is ResolverBase {
     }
 
     /**
-     * Returns the address associated with an ENS node.
-     * @param node The ENS node to query.
+     * Returns the address associated with an PNS node.
+     * @param node The PNS node to query.
      * @return The associated address.
      */
     function addr(bytes32 node) public view returns (address) {
@@ -176,14 +176,14 @@ contract AddrResolver is ResolverBase {
 
 #### Implementation
 
-An implementation of this interface is provided in the [ensdomains/resolvers](https://github.com/ensdomains/resolvers/) repository.
+An implementation of this interface is provided in the [pnsdomains/resolvers](https://github.com/pnsdomains/resolvers/) repository.
 
 ### Backwards Compatibility
 
-If the resolver supports the `addr(bytes32)` interface defined in ENSIP-1, the resolver MUST treat this as a special case of this new specification in the following ways:
+If the resolver supports the `addr(bytes32)` interface defined in PNSIP-1, the resolver MUST treat this as a special case of this new specification in the following ways:
 
-1. The value returned by `addr(node)` from ENSIP-1 should always match the value returned by `addr(node, 60)` (60 is the coin type ID for Ethereum).
-2. Anything that causes the `AddrChanged` event from ENSIP-1 to be emitted must also emit an `AddressChanged` event from this ENSIP, with the `coinType` specified as 60, and vice-versa.
+1. The value returned by `addr(node)` from PNSIP-1 should always match the value returned by `addr(node, 60)` (60 is the coin type ID for Ethereum).
+2. Anything that causes the `AddrChanged` event from PNSIP-1 to be emitted must also emit an `AddressChanged` event from this PNSIP, with the `coinType` specified as 60, and vice-versa.
 
 ### Tests
 
