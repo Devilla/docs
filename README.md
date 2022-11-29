@@ -1,6 +1,6 @@
 # Introduction
 
-The Pulsechain Name Service (PNS) is a distributed, open, and extensible naming system based on the Ethereum blockchain.
+The Pulsechain Name Service (PNS) is a distributed, open, and extensible naming system based on the Pulsechain.
 
 PNS’s job is to map human-readable names like ‘alice.pls’ to machine-readable identifiers such as Ethereum addresses, other cryptocurrency addresses, content hashes, and metadata. PNS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.
 
@@ -8,7 +8,7 @@ PNS has similar goals to DNS, the Internet’s Domain Name Service, but has sign
 
 Top-level domains, like ‘.pls’ and ‘.test’, are owned by smart contracts called registrars, which specify rules governing the allocation of their subdomains. Anyone may, by following the rules imposed by these registrar contracts, obtain ownership of a domain for their own use. PNS also supports importing in DNS names already owned by the user for use on PNS.
 
-Because of the hierarchal nature of PNS, anyone who owns a domain at any level may configure subdomains - for themselves or others - as desired. For instance, if Alice owns 'alice.pls', she can create 'pay.alice.eth' and configure it as she wishes.
+Because of the hierarchal nature of PNS, anyone who owns a domain at any level may configure subdomains - for themselves or others - as desired. For instance, if Alice owns 'alice.pls', she can create 'pay.alice.pls' and configure it as she wishes.
 
 PNS is deployed on the Pulsechain main network and on several test networks. If you use a library such as the [pns-sdk-v3](https://www.npmjs.com/package/@pnsdomains/pns-sdk-v3) Javascript library, or an end-user application, it will automatically detect the network you are interacting with and use the PNS deployment on that network.
 
