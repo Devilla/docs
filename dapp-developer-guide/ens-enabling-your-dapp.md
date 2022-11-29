@@ -38,4 +38,4 @@ By providing users with an easy way to update a name they own to point at your a
 
 ## Tell Us About Your Integration
 
-If you've PNS Enabled your app, let us know by emailing [nick@pns.domains](mailto:nick@pns.domains); we'll add your app to [our homepage](https://pns.domains).
+If you've PNS Enabled your app, let us know by emailing [admin@pulse.domains](mailto:admin@pulse.domains); we'll add your app to [our homepage](https://pulse.domains).
