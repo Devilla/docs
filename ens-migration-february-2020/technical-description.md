@@ -34,14 +34,14 @@ Migration strategies for each class of name are outlined below:
 * Top-level domains (.eth, .luxe, .kred, .club, .art, .xyz, and .reverse) were migrated over as part of the deployment process.
 * .eth second-level domains (eg, foo.eth) will be migrated over automatically for users - see the ‘migration contract’ section below for details.
 * Subdomains managed by the Subdomain Registrar will also be migrated over automatically for users.
-* Subdomains created by other means will need to be recreated by the owner of the parent domain calling \`setSubnodeOwner\` or \`setSubnodeRecord\`. The PNS dapp at app.pns.domains provides a one-click button to to do this for domains that are owned directly by users.
+* Subdomains created by other means will need to be recreated by the owner of the parent domain calling \`setSubnodeOwner\` or \`setSubnodeRecord\`. The PNS dapp at app.pulse.domains provides a one-click button to to do this for domains that are owned directly by users.
 * Reverse records (.addr.reverse domains) will need to be recreated by repeating the ‘claim’ process in the PNS dapp UI.
 * .xyz records will need to be migrated by repeating the ‘claim’ process proving ownership of the corresponding DNS domain. This can be done via the PNS Manager UI.
 * .kred, .art, and .club domains will be migrated by the operators of those top-level domains.
 
 Name resolution will continue to work normally for names that have not yet been migrated to the new registry. Migration is only necessary in order for users to be able to change the name’s ownership, resolver, or TTL.
 
-### .ETH Registrar
+### .PLS Registrar
 
 A new instance of the .eth registrar (BaseRegistrarImplementation) has been deployed, and can be found at 0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85. This registrar is largely unchanged, with only a couple of minor modifications made to support the migration.
 
@@ -59,11 +59,11 @@ In addition, the PNS team is automatically migrating over records from the legac
 
 A new instance of the public resolver has been deployed, and can be found at 0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41. This instance references the new PNS registry, and has an additional ‘multicall’ feature implemented, which permits users to set multiple records in a single operation.
 
-Since the public resolver looks up names in the PNS registry to determine who is permitted to configure records for them, while names - migrated or otherwise - pointed at an old instance of the public resolver will continue to function, they will need to migrate to the new public resolver in order to make changes. The PNS dapp at app.pns.domains facilitates this process using the new `multicall` function, making it possible to migrate over all records for a name in two transactions: the first one copying all records from the old resolver to the new one, and the second one updating the registry to point to the new resolver contract.
+Since the public resolver looks up names in the PNS registry to determine who is permitted to configure records for them, while names - migrated or otherwise - pointed at an old instance of the public resolver will continue to function, they will need to migrate to the new public resolver in order to make changes. The PNS dapp at app.pulse.domains facilitates this process using the new `multicall` function, making it possible to migrate over all records for a name in two transactions: the first one copying all records from the old resolver to the new one, and the second one updating the registry to point to the new resolver contract.
 
-### .ETH Registrar Controller
+### .PLS Registrar Controller
 
-All registration requests for PNS .eth second-level names are processed via a [‘controller’ contract](https://docs.pns.domains/contract-api-reference/.eth-permanent-registrar/controller). Once the migration is complete and all names from the old registry and registrar have been re-registered on the new one, the PNS team will enable the standard registrar controller, which permits registrations via the standard two-transaction process. The controller contract has no changes from the previous deployment.
+All registration requests for PNS .eth second-level names are processed via a [‘controller’ contract](https://docs.pulse.domains/contract-api-reference/.eth-permanent-registrar/controller). Once the migration is complete and all names from the old registry and registrar have been re-registered on the new one, the PNS team will enable the standard registrar controller, which permits registrations via the standard two-transaction process. The controller contract has no changes from the previous deployment.
 
 ### Reverse Registrar
 

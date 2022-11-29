@@ -15,14 +15,14 @@ There are two primary use cases for allowing users to display PNS names in your 
 1. **Replacing Ethereum addresses with PNS names**: When users are exploring the front-end of your dapp, wherever you would display an Ethereum address, you can instead display an PNS name. 
 2. **Resolving input fields**: You can allow the user to write an PNS name in an input field that expects an Ethereum address, rather than entering the Ethereum address.
 
-Beyond these use cases, remember that the [PNS Public Resolver](../contract-api-reference/publicresolver.md) allows you to link [different kinds of resources](https://docs.pns.domains/contract-api-reference/publicresolver), such as content stored on IPFS or Swarm, or any arbitrary data like text fields, to PNS names. This means there are other situations in which you might want to use PNS in your dapp. For example, if you are using complicated IPFS or Swarm hashes it is possible to convert the hashes to human readable names using PNS. Learn more about the different use cases in the chapter about [Enabling PNS in your DApp](pns-enabling-your-dapp.md).
+Beyond these use cases, remember that the [PNS Public Resolver](../contract-api-reference/publicresolver.md) allows you to link [different kinds of resources](https://docs.pulse.domains/contract-api-reference/publicresolver), such as content stored on IPFS or Swarm, or any arbitrary data like text fields, to PNS names. This means there are other situations in which you might want to use PNS in your dapp. For example, if you are using complicated IPFS or Swarm hashes it is possible to convert the hashes to human readable names using PNS. Learn more about the different use cases in the chapter about [Enabling PNS in your DApp](pns-enabling-your-dapp.md).
 
 ## 1. Replacing Ethereum Addresses with PNS Names
 
 {% hint style="warning" %}
-An PNS name \(as a substitute for an Ethereum Address\) **should only be shown** if the user has set a [Reverse Record](https://docs.pns.domains/dapp-developer-guide/resolving-names#reverse-resolution) for their address, and if the reverse record \(address &gt; name\) matches the [forward resolution](https://docs.pns.domains/dapp-developer-guide/resolving-names#looking-up-ethereum-addresses) \(name &gt; address\).
+An PNS name \(as a substitute for an Ethereum Address\) **should only be shown** if the user has set a [Reverse Record](https://docs.pulse.domains/dapp-developer-guide/resolving-names#reverse-resolution) for their address, and if the reverse record \(address &gt; name\) matches the [forward resolution](https://docs.pulse.domains/dapp-developer-guide/resolving-names#looking-up-ethereum-addresses) \(name &gt; address\).
 
-As a dApp developer you should therefore first check if the Reverse Record for a given address has been set by the user, and, because users can set the reverse record to be anything they want, even a name they don't own or a random string, you should immediately after check that the resolved name also resolves to the same address by performing the forward resolution. Read more [here](https://docs.pns.domains/dapp-developer-guide/resolving-names#reverse-resolution) and in the _'other guidelines_' section further down.
+As a dApp developer you should therefore first check if the Reverse Record for a given address has been set by the user, and, because users can set the reverse record to be anything they want, even a name they don't own or a random string, you should immediately after check that the resolved name also resolves to the same address by performing the forward resolution. Read more [here](https://docs.pulse.domains/dapp-developer-guide/resolving-names#reverse-resolution) and in the _'other guidelines_' section further down.
 {% endhint %}
 
 ### 1.1 - Displaying PNS names instead of Ethereum addresses
@@ -78,9 +78,9 @@ Follow these guidelines to create the best experience:
 
 ### What to do if the Reverse Record doesn't correspond to the Forward Resolution?
 
-As mentioned before, user can set the [Reverse Record](https://docs.pns.domains/dapp-developer-guide/resolving-names#reverse-resolution) to be anything they want, even a name owned by another user or a completely random string. This is why, after retrieving the name written in the Reverse Record, a dApp developer should also check that it matches the forward resolution, which means the address that PNS name points to.  
+As mentioned before, user can set the [Reverse Record](https://docs.pulse.domains/dapp-developer-guide/resolving-names#reverse-resolution) to be anything they want, even a name owned by another user or a completely random string. This is why, after retrieving the name written in the Reverse Record, a dApp developer should also check that it matches the forward resolution, which means the address that PNS name points to.  
 **If the two don't match, you MUST NOT show the human readable name and simply leave the plain Ethereum Address.** If you don't, users may be able to impersonate other users in your dApp.  
-The chapter on Reverse Resolution has [code](https://docs.pns.domains/dapp-developer-guide/resolving-names#reverse-resolution) for you to do this check.
+The chapter on Reverse Resolution has [code](https://docs.pulse.domains/dapp-developer-guide/resolving-names#reverse-resolution) for you to do this check.
 
 ### Options for displaying usernames
 
@@ -93,7 +93,7 @@ If your dApp needs to display many Ethereum Addresses or PNS Names in the UI, yo
 Your **optimistic UI** can safely display the names from cache **in all non-risky situations**, in which your user for example is simply browsing, but doesn't need to act or make decisions, especially risky ones, based on the information displayed.  
 However, **in all** _**risky**_ **situations** \(eg transferring ETH, tokens or other value\), or when the user is interacting with another PNS Name / Ethereum Address, you should **perform a direct live resolution** and get the most up to date information from the PNS Registry.
 
-Also consider that users can change their information in the PNS registry at any time so you should **periodically validate the information you cached**. For this you can also subscribe to certain **Events** made available by the contracts \(especially [AddrChanged](https://docs.pns.domains/contract-api-reference/publicresolver#set-ethereum-address), and [NameChanged](https://docs.pns.domains/contract-api-reference/publicresolver#set-canonical-name)\).
+Also consider that users can change their information in the PNS registry at any time so you should **periodically validate the information you cached**. For this you can also subscribe to certain **Events** made available by the contracts \(especially [AddrChanged](https://docs.pulse.domains/contract-api-reference/publicresolver#set-ethereum-address), and [NameChanged](https://docs.pulse.domains/contract-api-reference/publicresolver#set-canonical-name)\).
 
 \*\*\*\*
 

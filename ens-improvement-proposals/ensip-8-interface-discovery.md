@@ -6,7 +6,7 @@ description: >-
 
 # PNSIP-8: Interface Discovery
 
-| **Author**    | Nick Johnson \<nick@pns.domains> |
+| **Author**    | Nick Johnson \<nick@pulse.domains> |
 | ------------- | -------------------------------- |
 | **Status**    | Final                            |
 | **Submitted** | 2019-03-05                       |

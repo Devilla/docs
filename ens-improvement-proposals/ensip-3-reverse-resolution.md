@@ -6,7 +6,7 @@ description: >-
 
 # PNSIP-3: Reverse Resolution
 
-| **Author**    | Nick Johnson \<nick@pns.domains> |
+| **Author**    | Nick Johnson \<nick@pulse.domains> |
 | ------------- | -------------------------------- |
 | **Status**    | Final                            |
 | **Submitted** | 2016-12-01                       |

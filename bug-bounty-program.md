@@ -48,4 +48,4 @@ The bug bounty program is a discretionary rewards program for the PNS community 
 
 ## Submitting a Bug
 
-Bugs should be submitted via email to bugs@pns.domains, or on Keybase to @arachnid.
+Bugs should be submitted via email to bugs@pulse.domains, or on Keybase to @arachnid.

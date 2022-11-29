@@ -6,7 +6,7 @@ description: >-
 
 # PNSIP-7: Contenthash field
 
-| **Author**  | Dean Eigenmann <[dean@pns.domains](mailto:dean@pns.domains)>, Nick Johnson <[nick@pns.domains](mailto:nick@pns.domains)> |
+| **Author**  | Dean Eigenmann <[dean@pulse.domains](mailto:dean@pulse.domains)>, Nick Johnson <[nick@pulse.domains](mailto:nick@pulse.domains)> |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------ |
 | **Status**  | Final                                                                                                                    |
 | **Created** | 2018-11-13                                                                                                               |

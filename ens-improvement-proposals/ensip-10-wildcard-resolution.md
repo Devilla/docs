@@ -6,7 +6,7 @@ description: >-
 
 # PNSIP-10: Wildcard Resolution
 
-| **Author**    | Nick Johnson \<nick@pns.domains>, 0age (@0age) |
+| **Author**    | Nick Johnson \<nick@pulse.domains>, 0age (@0age) |
 | ------------- | ---------------------------------------------- |
 | **Status**    | Draft                                          |
 | **Submitted** | 2020-02-28                                     |

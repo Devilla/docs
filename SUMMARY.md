@@ -55,8 +55,8 @@
 * [Resolving Names On-chain](contract-developer-guide/resolving-names-on-chain.md)
 * [Writing a Resolver](contract-developer-guide/writing-a-resolver.md)
 * [Writing a Registrar](contract-developer-guide/writing-a-registrar.md)
-* [PNS Discussion Forum](https://discuss.pns.domains)
-* [PNS Support Chat](https://chat.pns.domains)
+* [PNS Discussion Forum](https://discuss.pulse.domains)
+* [PNS Support Chat](https://chat.pulse.domains)
 
 ## PNS Migration (February 2020)
 

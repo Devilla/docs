@@ -47,7 +47,7 @@ $node index.js
 {
   resolver: '0xC1735677a60884ABbCF72295E88d47764BeDa282',
   address: '0x41563129cDbbD0c5D3e1c86cf9563926b243834d',
-  email: 'nick@pns.domains'
+  email: 'nick@pulse.domains'
 }
 ```
 

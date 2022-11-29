@@ -6,7 +6,7 @@ description: >-
 
 # PNSIP-9: Multichain Address Resolution
 
-| **Author**    | Nick Johnson \<nick@pns.domains> |
+| **Author**    | Nick Johnson \<nick@pulse.domains> |
 | ------------- | -------------------------------- |
 | **Status**    | Final                            |
 | **Submitted** | 2019-09-09                       |

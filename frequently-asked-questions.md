@@ -8,7 +8,7 @@ Hashes provide a fixed length identifier that can easily be passed around betwee
 
 ### Which wallets and dapps support PNS so far?
 
-A partial list can be seen on [our homepage](https://pns.domains).
+A partial list can be seen on [our homepage](https://pulse.domains).
 
 ### Once I own a name, can I create my own subdomains?
 
@@ -26,7 +26,7 @@ In addition to that, we are deploying support for importing DNS domains from the
 
 ### Who owns the PNS rootnode? What powers does that grant them?
 
-The root node is presently owned by a multisig contract, with keys held by [trustworthy individuals in the Ethereum community](https://pns.domains/about#about-root). We expect that this will be hands-off, with the root ownership only used to effect administrative changes, such as the introduction of a new TLD, or to recover from an emergency such as a critical vulnerability in a TLD registrar.
+The root node is presently owned by a multisig contract, with keys held by [trustworthy individuals in the Ethereum community](https://pulse.domains/about#about-root). We expect that this will be hands-off, with the root ownership only used to effect administrative changes, such as the introduction of a new TLD, or to recover from an emergency such as a critical vulnerability in a TLD registrar.
 
 The keyholders are drawn from respected members of the community, and with the exception of Nick Johnson, founder of PNS, are unaffiliated with PNS. We ask and expect them to exercise their individual judgement acting in the interests of the PNS community, rather than rubber-stamping requests made to them by PNS developers.
 

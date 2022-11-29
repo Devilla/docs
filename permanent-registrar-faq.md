@@ -48,7 +48,7 @@ It's ultimately up to the keyholders to allocate the funds. We hope they will fu
 
 ### Where can I manage all my PNS names?
 
-Simply go to [app.pns.domains](https://app.pns.domains) and click on "My Account".
+Simply go to [app.pulse.domains](https://app.pulse.domains) and click on "My Account".
 
 ### Can I trade PNS domains on NFT exchanges?
 
@@ -56,7 +56,7 @@ Yes, .eth names are tradeable as NFTs.
 
 ### How can I transfer domains registered in the .eth registry to someone else?
 
-You can do this using [our Manager interface here](https://app.pns.domains), or using any tool with NFT support.
+You can do this using [our Manager interface here](https://app.pulse.domains), or using any tool with NFT support.
 
 ### What prohibits large scale domain grabbing besides registration fees?
 

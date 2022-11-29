@@ -6,7 +6,7 @@ description: >-
 
 # PNSIP-4: Support for contract ABIs
 
-| **Author**    | Nick Johnson \<nick@pns.domains> |
+| **Author**    | Nick Johnson \<nick@pulse.domains> |
 | ------------- | -------------------------------- |
 | **Status**    | Final                            |
 | **Submitted** | 2017-02-06                       |

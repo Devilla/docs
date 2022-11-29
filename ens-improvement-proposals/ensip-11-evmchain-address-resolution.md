@@ -4,7 +4,7 @@ description: Introduces coinType for EVM compatible chains (amending PNSIP9).
 
 # PNSIP-11: EVM compatible Chain Address Resolution
 
-| **Author**    | Makoto Inoue \<makoto@pns.domains> |
+| **Author**    | Makoto Inoue \<makoto@pulse.domains> |
 | ------------- | ---------------------------------- |
 | **Status**    | Draft                              |
 | **Submitted** | 2022-01-13                         |

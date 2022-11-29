@@ -12,7 +12,7 @@ On mainnet, the following registrars are deployed:
 * .kred, via a [custom integration](http://domains.kred/) that synchs and changes to a .kred PNS token to DNS automatically.
 * .art, via a custom integration
 
-To find out the contract address of each tld, check the "controller" address of the tld \(eg: [https://app.pns.domains/name/xyz](https://app.pns.domains/name/xyz) for `.xyz`
+To find out the contract address of each tld, check the "controller" address of the tld \(eg: [https://app.pulse.domains/name/xyz](https://app.pulse.domains/name/xyz) for `.xyz`
 
 ![](.gitbook/assets/screenshot-2021-05-19-at-17.54.17.png)
 
@@ -20,7 +20,7 @@ Ropsten test network has the .test registrar deployed. This registrar permits an
 
 In addition, the test networks also have a deployment of the .eth registrar for testing purposes.
 
-For other contract addresses such as root, multisig, controller, public resolver, and so on, you can see their address under [https://app.pns.domains/name/pns.eth/subdomains](https://app.pns.domains/name/pns.eth/subdomains)
+For other contract addresses such as root, multisig, controller, public resolver, and so on, you can see their address under [https://app.pulse.domains/name/pns.eth/subdomains](https://app.pulse.domains/name/pns.eth/subdomains)
 
 Back in February 2020, the PNS registry was migrated to the new contract address to patch security vulnerabilities \(Read more detail [here](pns-migration-february-2020/technical-description.md)\). The prior registry addresses were:
 

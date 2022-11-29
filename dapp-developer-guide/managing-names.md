@@ -157,7 +157,7 @@ pns.setText('iam.alice.eth', 'Test', 'Test record', {from: ...});
 
 ### Updating multiple records in one transaction
 
-Public Resolver has  `multicall`  that permits users to set multiple records in a single operation. Read [PublicResolver](https://docs.pns.domains/contract-api-reference/publicresolver#multicall) section for more detail.
+Public Resolver has  `multicall`  that permits users to set multiple records in a single operation. Read [PublicResolver](https://docs.pulse.domains/contract-api-reference/publicresolver#multicall) section for more detail.
 
 ## Configuring Reverse Resolution
 
@@ -165,7 +165,7 @@ While 'regular' resolution involves mapping from a name to an address, reverse r
 
 Before this can be done, the owner of the address has to configure reverse resolution for their address. This is done by calling the `claim()` method on the reverse resolver, found at the special name 'addr.reverse'.
 
-Most commonly this is accomplished via a user-interface such as the [PNS Manager DApp](https://manager.pns.domains/). go-pns and web3.py also provide functionality for this:
+Most commonly this is accomplished via a user-interface such as the [PNS Manager DApp](https://manager.pulse.domains/). go-pns and web3.py also provide functionality for this:
 
 {% tabs %}
 {% tab title="go-pns" %}

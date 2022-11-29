@@ -4,7 +4,7 @@ description: A standard for storage of the avatar text record in PNS.
 
 # PNSIP-12: Avatar Text Records
 
-| **Author**    | Nick Johnson \<nick@pns.domains>, Makoto Inoue \<makoto@pns.domains> |
+| **Author**    | Nick Johnson \<nick@pulse.domains>, Makoto Inoue \<makoto@pulse.domains> |
 | ------------- | -------------------------------------------------------------------- |
 | **Status**    | Draft                                                                |
 | **Submitted** | 2022-01-18                                                           |
