@@ -1,18 +1,18 @@
 # Introduction
 
-The Ethereum Name Service (PNS) is a distributed, open, and extensible naming system based on the Ethereum blockchain.
+The Pulsechain Name Service (PNS) is a distributed, open, and extensible naming system based on the Ethereum blockchain.
 
-PNS’s job is to map human-readable names like ‘alice.eth’ to machine-readable identifiers such as Ethereum addresses, other cryptocurrency addresses, content hashes, and metadata. PNS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.
+PNS’s job is to map human-readable names like ‘alice.pls’ to machine-readable identifiers such as Ethereum addresses, other cryptocurrency addresses, content hashes, and metadata. PNS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.
 
 PNS has similar goals to DNS, the Internet’s Domain Name Service, but has significantly different architecture due to the capabilities and constraints provided by the Ethereum blockchain. Like DNS, PNS operates on a system of dot-separated hierarchical names called domains, with the owner of a domain having full control over subdomains.
 
-Top-level domains, like ‘.eth’ and ‘.test’, are owned by smart contracts called registrars, which specify rules governing the allocation of their subdomains. Anyone may, by following the rules imposed by these registrar contracts, obtain ownership of a domain for their own use. PNS also supports importing in DNS names already owned by the user for use on PNS.
+Top-level domains, like ‘.pls’ and ‘.test’, are owned by smart contracts called registrars, which specify rules governing the allocation of their subdomains. Anyone may, by following the rules imposed by these registrar contracts, obtain ownership of a domain for their own use. PNS also supports importing in DNS names already owned by the user for use on PNS.
 
-Because of the hierarchal nature of PNS, anyone who owns a domain at any level may configure subdomains - for themselves or others - as desired. For instance, if Alice owns 'alice.eth', she can create 'pay.alice.eth' and configure it as she wishes.
+Because of the hierarchal nature of PNS, anyone who owns a domain at any level may configure subdomains - for themselves or others - as desired. For instance, if Alice owns 'alice.pls', she can create 'pay.alice.eth' and configure it as she wishes.
 
-PNS is deployed on the Ethereum main network and on several test networks. If you use a library such as the [ensjs](https://www.npmjs.com/package/@pnsdomains/ensjs) Javascript library, or an end-user application, it will automatically detect the network you are interacting with and use the PNS deployment on that network.
+PNS is deployed on the Pulsechain main network and on several test networks. If you use a library such as the [pns-sdk-v3](https://www.npmjs.com/package/@pnsdomains/pns-sdk-v3) Javascript library, or an end-user application, it will automatically detect the network you are interacting with and use the PNS deployment on that network.
 
-You can try PNS out for yourself now by using the [PNS Manager App](https://app.pns.domains), or by using any of the many PNS enabled applications on [our homepage](https://pns.domains).
+You can try PNS out for yourself now by using the [PNS Manager App](https://app.pulse.domains), or by using any of the many PNS enabled applications on [our homepage](https://pulse.domains).
 
 ## PNS Architecture
 
@@ -44,13 +44,13 @@ Resolving a name in PNS is a two-step process: First, ask the registry what reso
 
 ![](https://lh5.googleusercontent.com/\_OPPzaxTxKggx9HuxloeWtK8ggEfIIBKRCEA6BKMwZdzAfUpIY6cz7NK5CFmiuw7TwknbhFNVRCJsswHLqkxUEJ5KdRzpeNbyg8\_H9d2RZdG28kgipT64JyPZUP--bAizozaDcxCq34)
 
-In the above example, we're trying to find the Ethereum address pointed to by 'foo.eth'. First, we ask the registry which resolver is responsible for 'foo.eth'. Then, we query that resolver for the address of 'foo.eth'.
+In the above example, we're trying to find the Ethereum address pointed to by 'foo.eth'. First, we ask the registry which resolver is responsible for 'foo.pls'. Then, we query that resolver for the address of 'foo.eth'.
 
 ### Namehash
 
-Resource constraints in smart contracts make interacting directly with human-readable names inefficient, so PNS works purely with fixed length 256-bit cryptographic hashes. In order to derive the hash from a name while still preserving its hierarchal properties, a process called Namehash is used. For example, the namehash of 'alice.eth' is _0x787192fc5378cc32aa956ddfdedbf26b24e8d78e40109add0eea2c1a012c3dec_; this is the representation of names that is used exclusively inside PNS.
+Resource constraints in smart contracts make interacting directly with human-readable names inefficient, so PNS works purely with fixed length 256-bit cryptographic hashes. In order to derive the hash from a name while still preserving its hierarchal properties, a process called Namehash is used. For example, the namehash of 'alice.pls' is _0x787192fc5378cc32aa956ddfdedbf26b24e8d78e40109add0eea2c1a012c3dec_; this is the representation of names that is used exclusively inside PNS.
 
-Namehash is a recursive process that can generate a unique hash for any valid domain name. Starting with the namehash of any domain - for example, 'alice.eth' - it's possible to derive the namehash of any subdomain - for example 'iam.alice.eth' - without having to know or handle the original human-readable name. It is this property that makes it possible for PNS to provide a hierarchal system, without having to deal with human-readable text strings internally.
+Namehash is a recursive process that can generate a unique hash for any valid domain name. Starting with the namehash of any domain - for example, 'alice.pls' - it's possible to derive the namehash of any subdomain - for example 'iam.alice.eth' - without having to know or handle the original human-readable name. It is this property that makes it possible for PNS to provide a hierarchal system, without having to deal with human-readable text strings internally.
 
 Before being hashed with namehash, names are first normalized, using a process called UTS-46 normalization. This ensures that upper- and lower-case names are treated equivalently, and that invalid characters are prohibited. Anything that hashes and resolves a name **must** first normalize it, to ensure that all users get a consistent view of PNS.
 
@@ -70,4 +70,4 @@ Check out the Contract Developer Guide, starting with [Resolving Names On-chain]
 
 #### I want reference documentation for the PNS smart contracts
 
-Check out the Contract API Reference. We have reference documentation for PNS's core contract, the [registry](contract-api-reference/pns.md), for [resolvers](contract-api-reference/publicresolver.md), and for commonly-used registrars such as the [Test registrar](contract-api-reference/testregistrar.md), [reverse registrar](contract-api-reference/reverseregistrar.md), and the [.eth registrar](contract-api-reference/.eth-permanent-registrar/).
+Check out the Contract API Reference. We have reference documentation for PNS's core contract, the [registry](contract-api-reference/pns.md), for [resolvers](contract-api-reference/publicresolver.md), and for commonly-used registrars such as the [Test registrar](contract-api-reference/testregistrar.md), [reverse registrar](contract-api-reference/reverseregistrar.md), and the [.pls registrar](contract-api-reference/.eth-permanent-registrar/).
