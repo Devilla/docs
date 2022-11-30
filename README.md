@@ -2,7 +2,7 @@
 
 The Pulsechain Name Service (PNS) is a distributed, open, and extensible naming system based on the Pulsechain.
 
-PNS’s job is to map human-readable names like ‘alice.pls’ to machine-readable identifiers such as Ethereum addresses, other cryptocurrency addresses, content hashes, and metadata. PNS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.
+PNS’s job is to map human-readable names like ‘alice.pls’ to machine-readable identifiers such as Ethereum addresses, other cryptocurrency addresses, content hashes, and metadata. PNS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Pulsechain addresses.
 
 PNS has similar goals to DNS, the Internet’s Domain Name Service, but has significantly different architecture due to the capabilities and constraints provided by the Ethereum blockchain. Like DNS, PNS operates on a system of dot-separated hierarchical names called domains, with the owner of a domain having full control over subdomains.
 
