@@ -84,7 +84,7 @@ function setSubnodeOwner(bytes32 node, bytes32 label, address owner) external;
 
 Creates a new subdomain of `node`, assigning ownership of it to the specified `owner`. If the domain already exists, ownership is reassigned but the resolver and TTL are left unmodified.
 
-`label` is the keccak256 hash of the subdomain label to create. For example, if you own _alice.eth_ and want to create the subdomain _iam.alice.eth_, supply  `namehash('alice.eth')` as the `node`, and `keccak256('iam')` as the `label`.
+`label` is the keccak256 hash of the subdomain label to create. For example, if you own _alice.pls_ and want to create the subdomain _iam.alice.pls_, supply  `namehash('alice.pls')` as the `node`, and `keccak256('iam')` as the `label`.
 
 Emits the following event:
 
