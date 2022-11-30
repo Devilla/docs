@@ -4,7 +4,7 @@ description: The PNS registry.
 
 # Registry
 
-[Source](https://github.com/pnsdomains/pns/blob/master/contracts/PNS.sol)
+[Source](https://github.com/pnsdomains/pns/blob/master/contracts/ENS.sol)
 
 The PNS registry is the core contract that lies at the heart of PNS resolution. All PNS lookups start by querying the registry. The registry maintains a list of domains, recording the owner, resolver, and TTL for each, and allows the owner of a domain to make changes to that data.
 
