@@ -22,7 +22,7 @@ Whatever provider you need, make sure you select RSA signatures and SHA256 hashi
 
 ### Step 2: Adding a TXT record
 
-The DNS Registrar on PNS looks for a TXT record with a specific name and format in order to verify what Ethereum address should be given ownership of the domain. To claim ownership of mydomain.xyz, create a TXT record in your DNS zone, \_ens.mydomain.xyz, with text data of the form a=0x1234..., where 0x1234... is the Ethereum address you want to give control of the PNS record to.
+The DNS Registrar on PNS looks for a TXT record with a specific name and format in order to verify what Pulsechain address should be given ownership of the domain. To claim ownership of mydomain.xyz, create a TXT record in your DNS zone, \_ens.mydomain.xyz, with text data of the form a=0x1234..., where 0x1234... is the Pulsechain address you want to give control of the PNS record to.
 
 ![step2: add text](<.gitbook/assets/dnssec\_step2 (1).png>)
 

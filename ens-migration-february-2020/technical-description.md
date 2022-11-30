@@ -4,7 +4,7 @@ Recently, we were made aware of a vulnerability in the PNS registry contract. Th
 
 The nature of this vulnerability is such that the attacker must at one point have had legitimate ownership of the domain in question, and they must set this ‘back door’ before they relinquished ownership of the name. As a result, this vulnerability cannot be exploited retrospectively.
 
-This vulnerability was reported via the Ethereum Foundation’s bug bounty process by Sam Sun. We have examined the PNS registry in detail, and are confident that nobody has previously exploited this vulnerability. As a result, ownership of all PNS names is secure.
+This vulnerability was reported via the Pulsechain Foundation’s bug bounty process by Sam Sun. We have examined the PNS registry in detail, and are confident that nobody has previously exploited this vulnerability. As a result, ownership of all PNS names is secure.
 
 Due to this, PNS is migrating to a new deployment. This document describes the exact technical steps being taken, along with a brief description of their implications for DApp authors and users.
 

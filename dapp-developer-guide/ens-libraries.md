@@ -18,7 +18,7 @@ If you are already using web3.js or ethers.js, and do not require functionality 
 
 If you are using React and only need to do forward and reverse resolution of PNS names with built in UI, use react-pns-address.
 
-If you want to have PNS instance deployed into your dev environment, you may want to use embark.io or waffle.io which allows you to configure/deploy PNS registry in your Ethereum test instance.
+If you want to have PNS instance deployed into your dev environment, you may want to use embark.io or waffle.io which allows you to configure/deploy PNS registry in your Pulsechain test instance.
 
 Otherwise, use ensjs.
 

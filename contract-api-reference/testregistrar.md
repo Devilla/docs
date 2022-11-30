@@ -2,7 +2,7 @@
 
 [Source](https://github.com/pnsdomains/pns/blob/master/contracts/TestRegistrar.sol)
 
-The Test registrar facilitates easy testing of PNS on the Ethereum test networks. Typically deployed on the .test TLD, it provides functionality to instantly claim a domain for test purposes, which expires 28 days after it was claimed.
+The Test registrar facilitates easy testing of PNS on the Pulsechain test networks. Typically deployed on the .test TLD, it provides functionality to instantly claim a domain for test purposes, which expires 28 days after it was claimed.
 
 ## Register a Domain
 

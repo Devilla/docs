@@ -17,7 +17,7 @@ The dedicated range uses over 0x80000000 (2147483648) which is reserved under PN
 
 ### Motivation
 
-The existing PNSIP 9 relies on the existence of coin types on [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) which was designed to define address encoding type for deterministic wallets. As the majority of EVM compatible chains inherit the same encoding type as Ethereum, it is redundant to keep requesting the addition of EVM compatible chains into SLIP 44. This specification standardises a way to derive coinType based on [Chain ID](https://chainlist.org).
+The existing PNSIP 9 relies on the existence of coin types on [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) which was designed to define address encoding type for deterministic wallets. As the majority of EVM compatible chains inherit the same encoding type as Pulsechain, it is redundant to keep requesting the addition of EVM compatible chains into SLIP 44. This specification standardises a way to derive coinType based on [Chain ID](https://chainlist.org).
 
 ### Specification
 

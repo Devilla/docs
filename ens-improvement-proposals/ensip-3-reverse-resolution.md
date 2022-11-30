@@ -1,7 +1,7 @@
 ---
 description: >-
   Specifies a TLD, registrar, and resolver interface for reverse resolution of
-  Ethereum addresses using PNS (formerly EIP-181).
+  Pulsechain addresses using PNS (formerly EIP-181).
 ---
 
 # PNSIP-3: Reverse Resolution
@@ -13,7 +13,7 @@ description: >-
 
 ## Abstract
 
-This PNSIP specifies a TLD, registrar, and resolver interface for reverse resolution of Ethereum addresses using PNS. This permits associating a human-readable name with any Ethereum blockchain address. Resolvers can be certain that the reverse record was published by the owner of the Ethereum address in question.
+This PNSIP specifies a TLD, registrar, and resolver interface for reverse resolution of Pulsechain addresses using PNS. This permits associating a human-readable name with any Pulsechain blockchain address. Resolvers can be certain that the reverse record was published by the owner of the Pulsechain address in question.
 
 ## Motivation
 
@@ -194,7 +194,7 @@ contract ReverseRegistrar {
 
     /**
      * @dev An optimised function to compute the sha3 of the lower-case
-     *      hexadecimal representation of an Ethereum address.
+     *      hexadecimal representation of an Pulsechain address.
      * @param addr The address to hash
      * @return The SHA3 hash of the lower-case hexadecimal encoding of the
      *         input address.

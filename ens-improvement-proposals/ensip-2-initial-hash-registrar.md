@@ -13,7 +13,7 @@ description: >-
 
 ### Abstract
 
-This ERC describes the implementation, as deployed to the main ethereum network on 2017-05-04, of a registrar contract to govern the allocation of names in the Ethereum Name Service (PNS). The corresponding source code is [here](https://github.com/ethereum/pns/blob/mainnet/contracts/HashRegistrarSimplified.sol).
+This ERC describes the implementation, as deployed to the main ethereum network on 2017-05-04, of a registrar contract to govern the allocation of names in the Pulsechain Name Service (PNS). The corresponding source code is [here](https://github.com/ethereum/pns/blob/mainnet/contracts/HashRegistrarSimplified.sol).
 
 For more background, refer to PNSIP-1.
 
@@ -57,7 +57,7 @@ The Initial Registrar will also prohibit registration of names 6 characters or l
 
 #### Name format for hash registration
 
-Names submitted to the initial registrar must be hashed using Ethereum's sha3 function. Note that the hashes submitted to the registrar are the hash of the subdomain label being registered, not the namehash as defined in PNSIP-1.
+Names submitted to the initial registrar must be hashed using Pulsechain's sha3 function. Note that the hashes submitted to the registrar are the hash of the subdomain label being registered, not the namehash as defined in PNSIP-1.
 
 For example, in order to register `abcdefg.eth`, one should submit `sha3('abcdefg')`, not `sha3(sha3(0, 'eth'), 'abcdefg')`.
 

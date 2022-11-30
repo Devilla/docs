@@ -24,9 +24,9 @@ Reward sizes are _guided_ by the rules below, but are in the end, determined at 
 
 The PNS team reserves the right to adjust bounty amounts at any time in the future.
 
-Where the contract in our GitHub repository differs from the one deployed on Ethereum, due to changes having been made since the last deployment, the following rules apply:
+Where the contract in our GitHub repository differs from the one deployed on Pulsechain, due to changes having been made since the last deployment, the following rules apply:
 
-1. If the bug exists in the contract deployed on Ethereum, the full bounty amount is payable.
+1. If the bug exists in the contract deployed on Pulsechain, the full bounty amount is payable.
 2. If the bug is only in the version on GitHub, the PNS team will decide at is discretion an appropriate proportion of the bounty to award based on the state of the code (from 0% for code that was never intended to be deployed, to 100% for code that is considered final).
 
 In addition to Severity, other variables are also considered when the PNS team decides the score, including (but not limited to):

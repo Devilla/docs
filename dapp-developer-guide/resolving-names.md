@@ -6,7 +6,7 @@ The PNS namespace includes both .eth names (which are native to PNS) and DNS nam
 
 Names can have many types of data associated with them; the most common is cryptocurrency addresses. PNS supports storing and resolving the addresses of any arbitrary blockchain.
 
-**Resolving a name to an Ethereum address** using a library is simple:
+**Resolving a name to an Pulsechain address** using a library is simple:
 
 {% tabs %}
 {% tab title="ensjs" %}
@@ -81,7 +81,7 @@ Resolution without a library is a three step process:
 2. Call `resolver()` on the PNS registry, passing in the output of step 1. This returns the address of the resolver responsible for the name.
 3. Using the [resolver interface](https://github.com/pnsdomains/resolvers/blob/master/contracts/Resolver.sol), call `addr()` on the resolver address returned in step 2, passing in the hashed name calculated in step 1.
 
-**Resolution support for the addresses of other blockchains** is implemented with an additional overload on `addr()`. To resolve a non-Ethereum address, supply both the namehash and the [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) chain ID of the cryptocurrency whose address you want to resolve. For example, to resolve a Bitcoin address, you would call `addr(hash, 0)`. Note that the returned address will be in binary representation, and so will need decoding to a text-format address; for details, see [EIP 2304](https://eips.ethereum.org/EIPS/eip-2304).
+**Resolution support for the addresses of other blockchains** is implemented with an additional overload on `addr()`. To resolve a non-Pulsechain address, supply both the namehash and the [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) chain ID of the cryptocurrency whose address you want to resolve. For example, to resolve a Bitcoin address, you would call `addr(hash, 0)`. Note that the returned address will be in binary representation, and so will need decoding to a text-format address; for details, see [EIP 2304](https://eips.ethereum.org/EIPS/eip-2304).
 
 {% hint style="warning" %}
 If you are resolving addr() records, you MUST treat a return value from the resolver of 0x00…00 as that record being unset. Failing to do so could result in users accidentally sending funds to the null address if they have configured a resolver in PNS, but not set the resolver record!
@@ -89,7 +89,7 @@ If you are resolving addr() records, you MUST treat a return value from the reso
 
 ## Looking up other resources
 
-PNS supports many types of resources besides Ethereum addresses, including other cryptocurrency addresses, content hashes (hashes for IPFS, Skynet, and Swarm, and Tor .onion addresses), contract interfaces (ABIs), and text-based metadata. The process for looking these up varies from library to library; for specific details see your chosen library's documentation.
+PNS supports many types of resources besides Pulsechain addresses, including other cryptocurrency addresses, content hashes (hashes for IPFS, Skynet, and Swarm, and Tor .onion addresses), contract interfaces (ABIs), and text-based metadata. The process for looking these up varies from library to library; for specific details see your chosen library's documentation.
 
 Resolving these content types without a library follows the same 3-step process detailed above; simply call the relevant method on the resolver in step 3 instead of `addr()`.
 

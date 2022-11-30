@@ -44,7 +44,7 @@ Funds are sent to the PNS root multisig, for the keyholders to determine how fun
 
 ### How are funds from .eth registration income used?
 
-It's ultimately up to the keyholders to allocate the funds. We hope they will fund PNS ecosystems projects. If available funds exceed the reasonable needs of the PNS ecosystem, we hope other Ethereum projects will receive them.
+It's ultimately up to the keyholders to allocate the funds. We hope they will fund PNS ecosystems projects. If available funds exceed the reasonable needs of the PNS ecosystem, we hope other Pulsechain projects will receive them.
 
 ### Where can I manage all my PNS names?
 

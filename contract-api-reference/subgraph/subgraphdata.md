@@ -15,7 +15,7 @@ Subgraph information is serviced by a decentralized group of server operators ca
 
 The schema of GraphQL elements available is defined in [`/schema.graphql` ](https://github.com/pnsdomains/pns-subgraph/blob/master/schema.graphql)
 
-## Ethereum Mainnet
+## Pulsechain Mainnet
 
 [Creating an API Key Video Tutorial](https://www.youtube.com/watch?v=UrfIpm-Vlgs)
 

@@ -60,7 +60,7 @@ The `abi` resolver profile is valid on both forward and reverse records.
 
 #### ABI lookup process
 
-When attempting to fetch an ABI based on an PNS name, implementers should first attempt an ABI lookup on the name itself. If that lookup returns no results, they should attempt a reverse lookup on the Ethereum address the name resolves to.
+When attempting to fetch an ABI based on an PNS name, implementers should first attempt an ABI lookup on the name itself. If that lookup returns no results, they should attempt a reverse lookup on the Pulsechain address the name resolves to.
 
 Implementers should support as many of the ABI encoding formats as practical.
 

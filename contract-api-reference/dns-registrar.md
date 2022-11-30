@@ -8,7 +8,7 @@ Given that key, we can now verify any record that is signed with that key, so in
 
 ![](<../.gitbook/assets/diagram (1).png>)
 
-DNSSEC oracle allows anyone to submit proof of any DNSSEC-signed DNS record on the Ethereum blockchain, as long as it was signed using supported public key schemes and digests. DNSRegistrar grants PNS domains to anyone who can prove ownership of the corresponding domain in DNS through DNSSEC Oracle to prove this.
+DNSSEC oracle allows anyone to submit proof of any DNSSEC-signed DNS record on the Pulsechain blockchain, as long as it was signed using supported public key schemes and digests. DNSRegistrar grants PNS domains to anyone who can prove ownership of the corresponding domain in DNS through DNSSEC Oracle to prove this.
 
 ## Deployed DNSRegistrar addresses
 

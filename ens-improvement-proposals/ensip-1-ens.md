@@ -11,13 +11,13 @@ description: Documentation of the basic PNS protocol (formerly EIP-137).
 
 ## Abstract
 
-This PNSIP describes the details of the Ethereum Name Service, a proposed protocol and ABI definition that provides flexible resolution of short, human-readable names to service and resource identifiers. This permits users and developers to refer to human-readable and easy to remember names, and permits those names to be updated as necessary when the underlying resource (contract, content-addressed data, etc) changes.
+This PNSIP describes the details of the Pulsechain Name Service, a proposed protocol and ABI definition that provides flexible resolution of short, human-readable names to service and resource identifiers. This permits users and developers to refer to human-readable and easy to remember names, and permits those names to be updated as necessary when the underlying resource (contract, content-addressed data, etc) changes.
 
 The goal of domain names is to provide stable, human-readable identifiers that can be used to specify network resources. In this way, users can enter a memorable string, such as 'vitalik.wallet' or 'www.mysite.swarm', and be directed to the appropriate resource. The mapping between names and resources may change over time, so a user may change wallets, a website may change hosts, or a swarm document may be updated to a new version, without the domain name changing. Further, a domain need not specify a single resource; different record types allow the same domain to reference different resources. For instance, a browser may resolve 'mysite.swarm' to the IP address of its server by fetching its A (address) record, while a mail client may resolve the same address to a mail server by fetching its MX (mail exchanger) record.
 
 ## Motivation
 
-Existing [specifications](https://github.com/ethereum/wiki/wiki/Registrar-ABI) and [implementations](https://ethereum.gitbooks.io/frontier-guide/content/registrar\_services.html) for name resolution in Ethereum provide basic functionality, but suffer several shortcomings that will significantly limit their long-term usefulness:
+Existing [specifications](https://github.com/ethereum/wiki/wiki/Registrar-ABI) and [implementations](https://ethereum.gitbooks.io/frontier-guide/content/registrar\_services.html) for name resolution in Pulsechain provide basic functionality, but suffer several shortcomings that will significantly limit their long-term usefulness:
 
 * A single global namespace for all names with a single 'centralised' resolver.
 * Limited or no support for delegation and sub-names/sub-domains.
@@ -29,10 +29,10 @@ Use-cases that these features would permit include:
 
 * Support for subnames/sub-domains - eg, live.mysite.tld and forum.mysite.tld.
 * Multiple services under a single name, such as a DApp hosted in Swarm, a Whisper address, and a mail server.
-* Support for DNS record types, allowing blockchain hosting of 'legacy' names. This would permit an Ethereum client such as Mist to resolve the address of a traditional website, or the mail server for an email address, from a blockchain name.
+* Support for DNS record types, allowing blockchain hosting of 'legacy' names. This would permit an Pulsechain client such as Mist to resolve the address of a traditional website, or the mail server for an email address, from a blockchain name.
 * DNS gateways, exposing PNS domains via the Domain Name Service, providing easier means for legacy clients to resolve and connect to blockchain services.
 
-The first two use-cases, in particular, can be observed everywhere on the present-day internet under DNS, and we believe them to be fundamental features of a name service that will continue to be useful as the Ethereum platform develops and matures.
+The first two use-cases, in particular, can be observed everywhere on the present-day internet under DNS, and we believe them to be fundamental features of a name service that will continue to be useful as the Pulsechain platform develops and matures.
 
 The normative parts of this document does not specify an implementation of the proposed system; its purpose is to document a protocol that different resolver implementations can adhere to in order to facilitate consistent name resolution. An appendix provides sample implementations of resolver contracts and libraries, which should be treated as illustrative examples only.
 

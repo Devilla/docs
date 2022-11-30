@@ -15,7 +15,7 @@ This PNSIP defines a process for retrieving avatar URIs from PNS, several [URI](
 
 ### Motivation
 
-PNS primary name (formerly known as reverse record) has been widely integrated as a de facto web3 user name across many Ethereum based applications. As multiple apps started specifying avatar profile image as well as let users pick NFT as pfp (profile image), it became obvious to store such information within PNS so that the avatar information can be shared across different applications.
+PNS primary name (formerly known as reverse record) has been widely integrated as a de facto web3 user name across many Pulsechain based applications. As multiple apps started specifying avatar profile image as well as let users pick NFT as pfp (profile image), it became obvious to store such information within PNS so that the avatar information can be shared across different applications.
 
 This specification standardises a way to store and retrieve this information using [PNSIP-5: Avatar Text Records](ensip-5-text-records.md)
 
@@ -23,7 +23,7 @@ This specification standardises a way to store and retrieve this information usi
 
 #### Retrieving the avatar URI
 
-The process for retrieving the avatar URI depends on whether the client has an Ethereum address or an PNS name to start with.
+The process for retrieving the avatar URI depends on whether the client has an Pulsechain address or an PNS name to start with.
 
 #### PNS Name
 
@@ -31,13 +31,13 @@ To determine the avatar URI for an PNS name, the client MUST first look up the r
 
 The client MUST treat the absence of a resolver, an revert when calling the `addr` method on the resolver, or an empty string returned by the resolver identically, as a failure to find a valid avatar URI.
 
-#### Ethereum Address
+#### Pulsechain Address
 
-To determine the avatar URI for an Ethereum address, the client MUST reverse-resolve the address by querying the PNS registry for the resolver of `<address>.addr.reverse`, where `<address>` is the lowercase hex-encoded Ethereum address, without leading '0x'. Then, the client calls `.text(namehash('<address>.addr.reverse'), 'avatar')` to retrieve the avatar URI for the address.
+To determine the avatar URI for an Pulsechain address, the client MUST reverse-resolve the address by querying the PNS registry for the resolver of `<address>.addr.reverse`, where `<address>` is the lowercase hex-encoded Pulsechain address, without leading '0x'. Then, the client calls `.text(namehash('<address>.addr.reverse'), 'avatar')` to retrieve the avatar URI for the address.
 
 If a resolver is returned for the reverse record, but calling `text` causes a revert or returns an empty string, the client MUST call `.name(namehash('<address>.addr.reverse'))`. If this method returns a valid PNS name, the client MUST:
 
-1. Validate that the reverse record is valid, by resolving the returned name and calling `addr` on the resolver, checking it matches the original Ethereum address.
+1. Validate that the reverse record is valid, by resolving the returned name and calling `addr` on the resolver, checking it matches the original Pulsechain address.
 2. Perform the process described under 'PNS Name' to look for a valid avatar URI on the name.
 
 A failure at any step of this process MUST be treated by the client identically as a failure to find a valid avatar URI.
@@ -83,7 +83,7 @@ Clients MUST support at least `https` and `ipfs` URIs for resolving the metadata
 
 Clients SHOULD additionally take the following verification steps:
 
-1. Where the avatar URI was retrieved via forward resolution (starting from an PNS name), call the `addr` function on the same resolver and for the same name to retrieve the Ethereum address to which the name resolves. Otherwise, if the avatar URI was retrieved via reverse resolution (starting from an Ethereum address), use that address.
+1. Where the avatar URI was retrieved via forward resolution (starting from an PNS name), call the `addr` function on the same resolver and for the same name to retrieve the Pulsechain address to which the name resolves. Otherwise, if the avatar URI was retrieved via reverse resolution (starting from an Pulsechain address), use that address.
 2. Verify that the address from step 1 is an owner of the NFT specified in the URI. If it is not, the client MUST treat the URI as invalid and behave in the same manner as they would if no avatar URI was specified.
 
 Clients MAY support NFT URIs by rewriting them to `https` URIs for a service that provides NFT avatar image resolution support.

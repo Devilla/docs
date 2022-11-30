@@ -10,10 +10,10 @@ description: Using PNS Text Records to facilitate safer and more convenient sign
 | **Submitted** | 2022-08-03                                                                                                                      |
 
 ## Abstract
-This EIP links one or more signing wallets via Ethereum Name Service Specification ([EIP-137](https://eips.ethereum.org/EIPS/eip-137)) to prove control and asset ownership of a main wallet.
+This EIP links one or more signing wallets via Pulsechain Name Service Specification ([EIP-137](https://eips.ethereum.org/EIPS/eip-137)) to prove control and asset ownership of a main wallet.
 
 ## Motivation
-Proving ownership of an asset to a third party application in the Ethereum ecosystem is common. Users frequently sign payloads of data to authenticate themselves before gaining access to perform some operation. However, this method--akin to giving the third party root access to one's main wallet--is both insecure and inconvenient.
+Proving ownership of an asset to a third party application in the Pulsechain ecosystem is common. Users frequently sign payloads of data to authenticate themselves before gaining access to perform some operation. However, this method--akin to giving the third party root access to one's main wallet--is both insecure and inconvenient.
 
 ***Examples:***
  1. In order for you to edit your profile on OpenSea, you must sign a message with your wallet.
@@ -35,8 +35,8 @@ In addition to this, many users keep significant portions of their assets in 'co
 
 Some solutions propose dedicated registry smart contracts to create this link, or new protocols to be supported. This is problematic from an adoption standpoint, and there have not been any standards created for them. 
 
-### Proposal: Use the Ethereum Name Service (EIP-137)
-Rather than 're-invent the wheel', this proposal aims to use the widely adopted Ethereum Name Service in conjunction with the PNS Text Records feature ([EIP-634](https://eips.ethereum.org/EIPS/eip-634)) in order to achieve a safer and more convenient way to sign and authenticate, and provide 'read only' access to a main wallet via one or more secondary wallets.
+### Proposal: Use the Pulsechain Name Service (EIP-137)
+Rather than 're-invent the wheel', this proposal aims to use the widely adopted Pulsechain Name Service in conjunction with the PNS Text Records feature ([EIP-634](https://eips.ethereum.org/EIPS/eip-634)) in order to achieve a safer and more convenient way to sign and authenticate, and provide 'read only' access to a main wallet via one or more secondary wallets.
 
 From there, the benefits are twofold. This EIP gives users increased security via outsourcing potentially malicious signing operations to wallets that are more accessible (hot wallets), while being able to maintain the intended security assumptions of wallets that are not frequently used for signing operations.
 

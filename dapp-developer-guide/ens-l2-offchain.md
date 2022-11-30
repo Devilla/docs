@@ -2,7 +2,7 @@
 
 ## Summary
 
-With the proliferation of layer 2 solutions for Ethereum that are starting to reach maturity, it's important that PNS is able to provide resolution services across the entire ecosystem, as well as making it possible for PNS users to take advantage of the efficiencies made possible by Layer 2 solutions. Subsequent to a post by [Vitalik](https://ethereum-magicians.org/t/a-general-purpose-l2-friendly-pns-standard/4591) that suggested a possible means for this, the PNS team and the wider PNS and L2 community have been working on a general-purpose "Layer 2 bridge" that makes cross-platform interoperability possible for both PNS and other applications that need to be able to retrieve data from a variety of offchain sources (any data that resides outside of Ethereum Mainnet also known as layer 1/L1. This includes both propriety database and layer 2/L2 solutions such as Optimism, Arbitrum, Starkware, ZKSync, and so on) in a trustless fashion and came up with standards.
+With the proliferation of layer 2 solutions for Pulsechain that are starting to reach maturity, it's important that PNS is able to provide resolution services across the entire ecosystem, as well as making it possible for PNS users to take advantage of the efficiencies made possible by Layer 2 solutions. Subsequent to a post by [Vitalik](https://ethereum-magicians.org/t/a-general-purpose-l2-friendly-pns-standard/4591) that suggested a possible means for this, the PNS team and the wider PNS and L2 community have been working on a general-purpose "Layer 2 bridge" that makes cross-platform interoperability possible for both PNS and other applications that need to be able to retrieve data from a variety of offchain sources (any data that resides outside of Pulsechain Mainnet also known as layer 1/L1. This includes both propriety database and layer 2/L2 solutions such as Optimism, Arbitrum, Starkware, ZKSync, and so on) in a trustless fashion and came up with standards.
 
 - [EIP-3668: CCIP Read: Secure offchain data retrieval](https://eips.ethereum.org/EIPS/eip-3668)
 - [EIP-5559: Cross Chain Write Deferral Protocol](https://eips.ethereum.org/EIPS/eip-5559)
@@ -118,7 +118,7 @@ Unlike EOA (Externally Owned Account), contract based accounts such as multisig 
 ## References and previous discussions
 
 - [MVP of PNS on L2 with Optimism: Demo Video + How to Try It Yourself](https://medium.com/the-ethereum-name-service/mvp-of-pns-on-l2-with-optimism-demo-video-how-to-try-it-yourself-b44c390cbd67)
-- [A general-purpose bridge for Ethereum Layer 2s](https://medium.com/the-ethereum-name-service/a-general-purpose-bridge-for-ethereum-layer-2s-e28810ec1d88)
+- [A general-purpose bridge for Pulsechain Layer 2s](https://medium.com/the-ethereum-name-service/a-general-purpose-bridge-for-ethereum-layer-2s-e28810ec1d88)
 - [A general-purpose L2-friendly PNS standard](https://ethereum-magicians.org/t/a-general-purpose-l2-friendly-pns-standard/4591)
 - [Video: PNS Workshop on 18th Oct 2021](https://www.youtube.com/watch?v=L9N7U_bNmOU)
 - [Video: PNS Workshop on 6th April 2021](https://www.youtube.com/watch?v=9DdL7AQgXTM)

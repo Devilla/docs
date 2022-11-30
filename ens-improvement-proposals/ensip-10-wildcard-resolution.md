@@ -13,7 +13,7 @@ description: >-
 
 ### Abstract
 
-The Ethereum Name Service Specification (PNSIP-1) establishes a two-step name resolution process. First, an PNS client performs the namehash algorithm on the name to determine the associated "node", and supplies that node to the PNS Registry contract to determine the resolver. Then, if a resolver has been set on the Registry, the client supplies that same node to the resolver contract, which will return the associated address or other record.
+The Pulsechain Name Service Specification (PNSIP-1) establishes a two-step name resolution process. First, an PNS client performs the namehash algorithm on the name to determine the associated "node", and supplies that node to the PNS Registry contract to determine the resolver. Then, if a resolver has been set on the Registry, the client supplies that same node to the resolver contract, which will return the associated address or other record.
 
 As currently specified, this process terminates if a resolver is not set on the PNS Registry for a given node. This PNSIP changes the name resolution process by adding an additional step if a resolver is not set for a domain. This step strips out the leftmost label from the name, derives the node of the new fragment, and supplies that node to the PNS Registry. If a resolver is located for that node, the client supplies the original, complete node to that resolver contract to derive the relevant records. This step is repeated until a node with a resolver is found.
 

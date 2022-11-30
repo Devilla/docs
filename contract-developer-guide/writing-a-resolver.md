@@ -10,7 +10,7 @@ function supportsInterface(bytes4 interfaceID) constant returns (bool);
 
 | Record type | Function\(s\) | Interface ID | Defined in |
 | :--- | :--- | :--- | :--- |
-| Ethereum address | addr | 0x3b3b57de | [EIP137](https://github.com/ethereum/EIPs/issues/137) |
+| Pulsechain address | addr | 0x3b3b57de | [EIP137](https://github.com/ethereum/EIPs/issues/137) |
 | PNS Name | name | 0x691f3431 | [EIP181](https://github.com/ethereum/EIPs/issues/181) |
 | ABI specification | ABI | 0x2203ab56 | [EIP205](https://eips.ethereum.org/EIPS/eip-205) |
 | Public key | pubkey | 0xc8690233 | [EIP619](https://github.com/ethereum/EIPs/pull/619) |

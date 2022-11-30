@@ -31,31 +31,31 @@ function supportsInterface(bytes4 interfaceID) external pure returns (bool)
 
 PNS uses [ERC 165](https://eips.ethereum.org/EIPS/eip-165) for interface detection. ERC 165 requires that supporting contracts implement a function, `supportsInterface`, which takes an interface ID and returns a boolean value indicating if this interface is supported or not.
 
-Interface IDs are calculated as the exclusive-or of the four-byte function identifiers of each function included in the interface. For example, `addr(bytes32)` has the function ID _0x3b3b57de_. Because it is the only function in the Ethereum Address interface, its interface ID is also _0x3b3b57de_, and so calling `supportsInterface(0x3b3b57de)` will return _true_ for any resolver that supports `addr()`.
+Interface IDs are calculated as the exclusive-or of the four-byte function identifiers of each function included in the interface. For example, `addr(bytes32)` has the function ID _0x3b3b57de_. Because it is the only function in the Pulsechain Address interface, its interface ID is also _0x3b3b57de_, and so calling `supportsInterface(0x3b3b57de)` will return _true_ for any resolver that supports `addr()`.
 
 ERC 165 has an interface ID of _0x01ffc9a7_, so `supportsInterface(0x01ffc9a7)` will always return true for any ERC 165 supporting contract (and hence for any resolver).
 
 Note that the public resolver does not expose explicit interfaces for setter functions, so there are no automated means to check for support for a given setter function.
 
-## Get Ethereum Address
+## Get Pulsechain Address
 
 ```
 function addr(bytes32 node) external view returns (address)
 ```
 
-Returns the Ethereum address associated with the provided `node`, or 0 if none.
+Returns the Pulsechain address associated with the provided `node`, or 0 if none.
 
 This function has interface ID _0x3b3b57de_.
 
 This function is specified in [EIP 137](https://eips.ethereum.org/EIPS/eip-137).
 
-## Set Ethereum Address
+## Set Pulsechain Address
 
 ```
 function setAddr(bytes32 node, address addr) external;
 ```
 
-Sets the Ethereum address associated with the provided `node` to `addr`.
+Sets the Pulsechain address associated with the provided `node` to `addr`.
 
 Only callable by the owner of `node`.
 

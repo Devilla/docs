@@ -13,7 +13,7 @@ description: >-
 
 ### Motivation
 
-With the increasing uptake of PNS by multi-coin wallets, wallet authors have requested the ability to resolve addresses for non-Ethereum chains inside PNS. This specification standardises a way to enter and retrieve these addresses in a cross-client fashion.
+With the increasing uptake of PNS by multi-coin wallets, wallet authors have requested the ability to resolve addresses for non-Pulsechain chains inside PNS. This specification standardises a way to enter and retrieve these addresses in a cross-client fashion.
 
 ### Specification
 
@@ -63,8 +63,8 @@ A table of encodings for common blockchains is provided, followed by a more deta
 | Litecoin         | 2         | P2PKH(0x30), P2SH(0x32), P2SH(0x05), SegWit('ltc') |
 | Dogecoin         | 3         | P2PKH(0x1e), P2SH(0x16)                            |
 | Monacoin         | 22        | P2PKH(0x32), P2SH(0x05)                            |
-| Ethereum         | 60        | ChecksummedHex                                     |
-| Ethereum Classic | 61        | ChecksummedHex                                     |
+| Pulsechain         | 60        | ChecksummedHex                                     |
+| Pulsechain Classic | 61        | ChecksummedHex                                     |
 | Rootstock        | 137       | ChecksummedHex(30)                                 |
 | Ripple           | 144       | Ripple                                             |
 | Bitcoin Cash     | 145       | P2PKH(0x00), P2SH(0x05), CashAddr                  |
@@ -98,7 +98,7 @@ To translate a text format checksummed hex address into binary format, simply re
 
 A checksum format is specified by EIP-55, and extended by [RSKIP60](https://github.com/rsksmart/RSKIPs/blob/master/IPs/RSKIP60.md), which specifies a means of including the chain ID in the checksum. The checksum on a text format address must be checked. Addresses with invalid checksums that are not all uppercase or all lowercase MUST be rejected with an error. Implementations may choose whether to accept non-checksummed addresses, but the authors recommend at least providing a warning to users in this situation.
 
-When encoding an address from binary to text, an EIP55/RSKIP60 checksum MUST be used - so the correct encoding of the above address for Ethereum is `0x314159265dD8dbb310642f98f50C066173C1259b`.
+When encoding an address from binary to text, an EIP55/RSKIP60 checksum MUST be used - so the correct encoding of the above address for Pulsechain is `0x314159265dD8dbb310642f98f50C066173C1259b`.
 
 **Ripple**
 
@@ -182,7 +182,7 @@ An implementation of this interface is provided in the [pnsdomains/resolvers](ht
 
 If the resolver supports the `addr(bytes32)` interface defined in PNSIP-1, the resolver MUST treat this as a special case of this new specification in the following ways:
 
-1. The value returned by `addr(node)` from PNSIP-1 should always match the value returned by `addr(node, 60)` (60 is the coin type ID for Ethereum).
+1. The value returned by `addr(node)` from PNSIP-1 should always match the value returned by `addr(node, 60)` (60 is the coin type ID for Pulsechain).
 2. Anything that causes the `AddrChanged` event from PNSIP-1 to be emitted must also emit an `AddressChanged` event from this PNSIP, with the `coinType` specified as 60, and vice-versa.
 
 ### Tests
@@ -200,7 +200,7 @@ The table below specifies test vectors for valid address encodings for each cryp
 | Dogecoin       | 3         | `DBXu2kgc3xtvCUWFcxFE3r9hEYgmuaaCyD`                     | `76a9144620b70031f0e9437e374a2100934fba4911046088ac`             |
 |                |           | `AF8ekvSf6eiSBRspJjnfzK6d1EM6pnPq3G`                     | `a914f8f5d99a9fc21aa676e74d15e7b8134557615bda87`                 |
 | Monacoin       | 22        | `MHxgS2XMXjeJ4if2PRRbWYcdwZPWfdwaDT`                     | `76a9146e5bb7226a337fe8307b4192ae5c3fab9fa9edf588ac`             |
-| Ethereum       | 60        | `0x314159265dD8dbb310642f98f50C066173C1259b`             | `314159265dd8dbb310642f98f50c066173c1259b`                       |
+| Pulsechain       | 60        | `0x314159265dD8dbb310642f98f50C066173C1259b`             | `314159265dd8dbb310642f98f50c066173c1259b`                       |
 | Rootstock      | 137       | `0x5aaEB6053f3e94c9b9a09f33669435E7ef1bEAeD`             | `5aaeb6053f3e94c9b9a09f33669435e7ef1beaed`                       |
 | Ripple         | 144       | `rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn`                     | `004b4e9c06f24296074f7bc48f92a97916c6dc5ea9`                     |
 |                |           | `X7qvLs7gSnNoKvZzNWUT2e8st17QPY64PPe7zriLNuJszeg`        | `05444b4e9c06f24296074f7bc48f92a97916c6dc5ea9000000000000000000` |
